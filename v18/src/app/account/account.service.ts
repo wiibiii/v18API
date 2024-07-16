@@ -4,14 +4,14 @@ import { ReplaySubject, map, of, take } from 'rxjs';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { SharedService } from '../shared/shared.service';
-import { User } from '../shared/models/acount/user';
-import { Register } from '../shared/models/acount/register';
+import { User } from '../shared/models/account/user';
+import { Register } from '../shared/models/account/register';
 import { environment } from '../../environments/environment';
-import { RegisterWithExternal } from '../shared/models/acount/registerWithExternal';
-import { ConfirmEmail } from '../shared/models/acount/confirmEmail';
-import { Login } from '../shared/models/acount/login';
-import { LoginWithExternal } from '../shared/models/acount/loginWithExternal';
-import { ResetPassword } from '../shared/models/acount/resetPassword';
+import { RegisterWithExternal } from '../shared/models/account/registerWithExternal';
+import { ConfirmEmail } from '../shared/models/account/confirmEmail';
+import { Login } from '../shared/models/account/login';
+import { LoginWithExternal } from '../shared/models/account/loginWithExternal';
+import { ResetPassword } from '../shared/models/account/resetPassword';
 
 @Injectable({
   providedIn: 'root',
@@ -178,7 +178,7 @@ export class AccountService {
               this.sharedService.displayExpiringSessionModal = true;
               this.sharedService.openExpirySessionCountdown();
               // in 10 minutes of user inactivity
-            }, 10 * 1000);
+            }, 10 * 60 * 1000);
           }
         }
       },

@@ -10,6 +10,7 @@ import { PlayComponent } from './play/play.component';
 import { SharedModule } from './shared/shared.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './shared/interceptors/jwt.interceptor';
+import { BlogsComponent } from './blogs/blogs.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { JwtInterceptor } from './shared/interceptors/jwt.interceptor';
     FooterComponent,
     HomeComponent,
     PlayComponent,
+    BlogsComponent,
   ],
   imports: [
     BrowserModule,

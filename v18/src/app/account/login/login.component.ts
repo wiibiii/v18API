@@ -16,8 +16,8 @@ import { SharedService } from '../../shared/shared.service';
 import { DOCUMENT } from '@angular/common';
 import { jwtDecode } from 'jwt-decode';
 import { CredentialResponse } from 'google-one-tap';
-import { User } from '../../shared/models/acount/user';
-import { LoginWithExternal } from '../../shared/models/acount/loginWithExternal';
+import { User } from '../../shared/models/account/user';
+import { LoginWithExternal } from '../../shared/models/account/loginWithExternal';
 declare const FB: any;
 
 @Component({
