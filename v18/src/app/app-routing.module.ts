@@ -25,6 +25,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./account/account.module').then((module) => module.AccountModule),
   },
+  {
+    path: 'blogs',
+    loadChildren: () =>
+      import('./blogs/blogs.module').then((module) => module.BlogsModule),
+  },
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', component: NotFoundComponent, pathMatch: 'full' },
 ];

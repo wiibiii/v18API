@@ -1,0 +1,65 @@
+<div class="container col-xxxl-8 px-4 py-5">
+  <div class="row align-content-center g-5 py-5">
+    <div class="col-12 col-lg-6">
+      <h1 class="display-5 fw-bold lh-1 mb-3">Bloggie - The Dev Blog</h1>
+
+      <p class="lead">
+        Bloggie is the home to coding blogs covering a vast range of topics like
+        HTML, CSS, Javascript, ASP.NET, C#, Angular etc. Want to read the latest
+        dev articles? Join the bloggie app and get weekly blogs in your email.
+      </p>
+    </div>
+
+    <div class="col-12 col-lg-6">
+      <img
+        src="https://images.pexels.com/photos/57690/pexels-photo-57690.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        alt="Bloggie - Dev blogs"
+        class="d-block mx-lg-auto img-fluid"
+        width="300px;"
+      />
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-6 d-flex">
+      <span class="badge bg-secondary me-1" *ngFor="let tag of home?.tags">{{
+        tag.Name
+      }}</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <div
+        class="mb-5 btn-light box-shadow p-5"
+        *ngFor="let blogs of home?.blogPosts"
+      >
+        <img
+          src="{{ blogs.featuredImageUrl }}"
+          alt="{{ blogs.heading }}"
+          class="mb-2 d-block img-fluid"
+        />
+
+        <h2 class="mb-4">{{ blogs.heading }}</h2>
+
+        <p class="mb-4">
+          Author : {{ blogs.author }}
+          <br />
+          Published Date : {{ blogs.publishedDate | date }}
+        </p>
+        <p class="mb-4">
+          <span class="badge bg-secondary me-1" *ngFor="let tag of home?.tags">
+            {{ tag.Name }}
+          </span>
+        </p>
+        <h2 class="mb-4">{{ blogs.shortDescription }}</h2>
+
+        <a class="btn btn-dark">Read More</a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,8 @@
 using API;
 using API.Data;
 using API.Models;
+using API.Repositories.Interface;
+using API.Repositories;
 using API.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -24,11 +26,20 @@ builder.Services.AddDbContext<Context>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+builder.Services.AddDbContext<BloggieDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("BloggieDbConnection"));
+});
+
 //be able to inject JWTService class inside our controllers
 builder.Services.AddScoped<JWTService>();
 builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<ContextSeedService>();
 
+builder.Services.AddScoped<IBlogPostRepository, BlogPostRepository>();
+builder.Services.AddScoped<IBlogPostLikeRepository, BlogPostLikeRepository>();
+builder.Services.AddScoped<IBlogPostCommentRepository, BlogPostCommentRepository>();
+builder.Services.AddScoped<ITagRepository, TagRepository>();
 
 // defining our IdentityCore Service
 builder.Services.AddIdentityCore<User>(options =>

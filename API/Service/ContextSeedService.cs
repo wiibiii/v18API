@@ -11,8 +11,10 @@ namespace API.Service
         private readonly Context context;
         private readonly UserManager<User> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
+        private readonly BloggieDbContext bloggieDbContext;
 
         public ContextSeedService(Context context,
+            BloggieDbContext bloggieDbContext,
             UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager
             )
@@ -20,6 +22,7 @@ namespace API.Service
             this.context = context;
             this.userManager = userManager;
             this.roleManager = roleManager;
+            this.bloggieDbContext = bloggieDbContext;
         }
 
         public async Task InitializeContextAsync()
@@ -28,6 +31,11 @@ namespace API.Service
             {
                 //applies pending migrations
                 await context.Database.MigrateAsync();
+            }
+
+            if(bloggieDbContext.Database.GetPendingMigrationsAsync().GetAwaiter().GetResult().Count() > 0)
+            {
+                await bloggieDbContext.Database.MigrateAsync();
             }
 
             if (!roleManager.Roles.Any())
