@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { MemberView } from '../shared/models/admin/memberView';
 import { environment } from '../../environments/environment';
 import { MemberAddEdit } from '../shared/models/admin/memberAddEdit';
+import { Tag } from '../shared/models/blogs/tag';
 
 @Injectable({
   providedIn: 'root',
@@ -45,5 +46,18 @@ export class AdminService {
       `${environment.appUrl}admin/delete-member/${id}`,
       {}
     );
+  }
+
+  addTags() {}
+
+  getAllBlogTags(
+    searchQuery: string,
+    sortBy: string,
+    sortDirection: string,
+    pageSize: number = 3,
+    pageNUmber: number = 1
+  ) {
+    // searchQuery=${searchQuery}&sortBy=${sortBy}&sortDirection=${sortDirection}&
+    return this.http.get<Tag[]>(`${environment.appUrl}admintags/list`);
   }
 }

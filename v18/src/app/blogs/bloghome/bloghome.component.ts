@@ -20,7 +20,7 @@ export class BloghomeComponent implements OnInit {
   getBlogs() {
     this.blogService.getAllBlogs().subscribe({
       next: (blogs: Home | undefined) => {
-        console.log(blogs);
+        //console.log(blogs);
         // if (blogs.blogPosts.length > 0) {
         //   this.home.blogPosts = blogs.blogPosts;
         // }

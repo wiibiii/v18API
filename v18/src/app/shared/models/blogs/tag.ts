@@ -1,8 +1,8 @@
 import { BlogPost } from './blogPost';
 
 export interface Tag {
-  Id: string;
-  Name: string;
-  DisplayName: string;
-  BlogPosts: BlogPost[];
+  id: string;
+  name: string;
+  displayName: string;
+  nlogPosts: BlogPost[];
 }

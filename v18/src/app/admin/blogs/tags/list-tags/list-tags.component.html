@@ -1,0 +1,30 @@
+<div class="container mt-3">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>
+          Name
+          <span> </span>
+        </th>
+        <th>Display Name</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tag of blogTags">
+        <td>{{ tag.id }}</td>
+        <td>{{ tag.name }}</td>
+        <td>{{ tag.displayName }}</td>
+        <td>
+          <button
+            class="btn btn-primary btn-sm me-2"
+            routerLink="/admin/admin-edit-tags"
+          >
+            Edit
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
