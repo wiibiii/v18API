@@ -21,7 +21,7 @@ const routes: Routes = [
       //path for editing an existing member
       { path: 'add-edit-member/:id', component: AddEditMemberComponent },
       { path: 'admin-tags', component: ListTagsComponent },
-      { path: 'admin-edit-tags', component: EditTagsComponent },
+      { path: 'admin-edit-tags/:id', component: EditTagsComponent },
       { path: 'admin-add-tags', component: AddTagsComponent },
     ],
   },

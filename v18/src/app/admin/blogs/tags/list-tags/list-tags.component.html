@@ -19,7 +19,7 @@
         <td>
           <button
             class="btn btn-primary btn-sm me-2"
-            routerLink="/admin/admin-edit-tags"
+            routerLink="/admin/admin-edit-tags/{{ tag.id }}"
           >
             Edit
           </button>
@@ -27,4 +27,33 @@
       </tr>
     </tbody>
   </table>
+
+  <nav aria-label="Page Navigation">
+    <ul class="pagination">
+      <li class="page-item">
+        <a
+          class="page-link"
+          (click)="getAllTags('', '', '', pageSize, previousPage)"
+          >Previous</a
+        >
+      </li>
+      <li *ngFor="let item of [].constructor(totalPages); let i = index">
+        <a class="page-link" (click)="getAllTags('', '', '', pageSize, i + 1)">
+          <ng-container *ngIf="pageNumber === i + 1">
+            <b>{{ i + 1 }}</b>
+          </ng-container>
+          <ng-container *ngIf="pageNumber !== i + 1">
+            {{ i + 1 }}
+          </ng-container>
+        </a>
+      </li>
+      <li class="page-item">
+        <a
+          class="page-link"
+          (click)="getAllTags('', '', '', pageSize, nextPage)"
+          >Next</a
+        >
+      </li>
+    </ul>
+  </nav>
 </div>

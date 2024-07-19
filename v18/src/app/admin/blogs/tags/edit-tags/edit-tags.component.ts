@@ -1,10 +1,82 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AdminService } from '../../../admin.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { EditTag, Tag } from '../../../../shared/models/blogs/tag';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SharedService } from '../../../../shared/shared.service';
 
 @Component({
   selector: 'app-edit-tags',
   templateUrl: './edit-tags.component.html',
-  styleUrl: './edit-tags.component.css'
+  styleUrl: './edit-tags.component.css',
 })
-export class EditTagsComponent {
+export class EditTagsComponent implements OnInit {
+  tagForm: FormGroup = new FormGroup({});
+  formInitialized = false;
+  submitted = false;
+  errorMessages: string[] = [];
+  constructor(
+    private adminService: AdminService,
+    private router: Router,
+    private activedRoute: ActivatedRoute,
+    private formBuilder: FormBuilder,
+    private sharedService: SharedService
+  ) {}
 
+  ngOnInit(): void {
+    const id = this.activedRoute.snapshot.paramMap.get('id');
+    if (id) {
+      this.adminService.editBlogTag(id).subscribe({
+        next: (response: EditTag) => {
+          this.formInitialized = true;
+          this.initializeForm(response);
+        },
+      });
+    } else {
+      this.initializeForm(undefined);
+    }
+  }
+
+  initializeForm(tag: EditTag | undefined) {
+    if (tag) {
+      this.tagForm = this.formBuilder.group({
+        id: [tag.id],
+        name: [tag.name, Validators.required],
+        displayName: [tag.displayName, Validators.required],
+      });
+    } else {
+      this.tagForm = this.formBuilder.group({
+        id: [''],
+        name: ['', Validators.required],
+        displayName: ['', Validators.required],
+      });
+    }
+  }
+
+  submit() {
+    this.submitted = true;
+    this.errorMessages = [];
+    if (this.tagForm.valid) {
+      // let formValue! : EditTag;
+      // formValue.id = this.tagForm.get('id')?.value;
+      // formValue.name = this.tagForm.get('name')?.value;
+      // formValue.displayName = this.tagForm.get('displayName')?.value;
+      this.adminService.updateBlogTag(this.tagForm.value).subscribe({
+        next: (response: any) => {
+          this.sharedService.showNotification(
+            true,
+            response.value.title,
+            response.value.message
+          );
+        },
+        error: (error) => {
+          if (error.error.errors) {
+            this.errorMessages = error.error.errors;
+          } else {
+            this.errorMessages.push(error.error);
+          }
+        },
+      });
+    }
+  }
 }

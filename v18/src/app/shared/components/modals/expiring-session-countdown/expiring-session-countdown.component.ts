@@ -11,7 +11,7 @@ import { AccountService } from '../../../../account/account.service';
 })
 export class ExpiringSessionCountdownComponent implements OnInit, OnDestroy {
   modalRef?: BsModalRef;
-  targetTime: number = 120; //countdown time in seconds
+  targetTime: number = 120; //countdown time in seconds 120
   remainingTime: number = this.targetTime;
 
   displayTime: string = this.formatTime(this.remainingTime);
@@ -36,11 +36,13 @@ export class ExpiringSessionCountdownComponent implements OnInit, OnDestroy {
         this.displayTime = this.formatTime(this.remainingTime);
       } else {
         this.stopCountDown();
+        this.sharedService.bsModalRef?.hide();
         this.sharedService.showNotification(
           false,
           'Logged Out',
           'You have been logged out due to inactivity'
         );
+        this.logout();
       }
     });
   }

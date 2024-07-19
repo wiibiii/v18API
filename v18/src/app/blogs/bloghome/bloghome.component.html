@@ -25,7 +25,7 @@
   <div class="row justify-content-center">
     <div class="col-6 d-flex">
       <span class="badge bg-secondary me-1" *ngFor="let tag of home?.tags">{{
-        tag.Name
+        tag.name
       }}</span>
     </div>
   </div>
@@ -53,7 +53,7 @@
         </p>
         <p class="mb-4">
           <span class="badge bg-secondary me-1" *ngFor="let tag of home?.tags">
-            {{ tag.Name }}
+            {{ tag.name }}
           </span>
         </p>
         <h2 class="mb-4">{{ blogs.shortDescription }}</h2>

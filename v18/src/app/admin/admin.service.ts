@@ -1,9 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MemberView } from '../shared/models/admin/memberView';
 import { environment } from '../../environments/environment';
 import { MemberAddEdit } from '../shared/models/admin/memberAddEdit';
-import { Tag } from '../shared/models/blogs/tag';
+import { EditTag, Tag } from '../shared/models/blogs/tag';
 
 @Injectable({
   providedIn: 'root',
@@ -58,6 +58,28 @@ export class AdminService {
     pageNUmber: number = 1
   ) {
     // searchQuery=${searchQuery}&sortBy=${sortBy}&sortDirection=${sortDirection}&
-    return this.http.get<Tag[]>(`${environment.appUrl}admintags/list`);
+    let params = new HttpParams();
+    params = params.append('searchQuery', searchQuery);
+    params = params.append('sortBy', sortBy);
+    params = params.append('sortDirection', sortDirection);
+    params = params.append('pageSize', pageSize);
+    params = params.append('pageNUmber', pageNUmber);
+    return this.http.get<Tag[]>(`${environment.appUrl}admintags/list`, {
+      params: params,
+    });
+  }
+
+  editBlogTag(id: string) {
+    let params = new HttpParams();
+
+    params = params.append('id', id);
+
+    return this.http.get<EditTag>(`${environment.appUrl}admintags/edit`, {
+      params: params,
+    });
+  }
+
+  updateBlogTag(model: EditTag) {
+    return this.http.post(`${environment.appUrl}admintags/edit`, model);
   }
 }

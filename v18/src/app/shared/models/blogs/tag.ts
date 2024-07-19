@@ -4,5 +4,11 @@ export interface Tag {
   id: string;
   name: string;
   displayName: string;
-  nlogPosts: BlogPost[];
+  blogPosts: BlogPost[];
+}
+
+export interface EditTag {
+  id: string;
+  name: string;
+  displayName: string;
 }
