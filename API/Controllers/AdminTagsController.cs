@@ -41,9 +41,9 @@ namespace API.Controllers
         //    return RedirectToAction("List");
         //}
 
-        [HttpGet("List")]
+        [HttpGet("get-all-tag-paginated")]
 
-        public async Task<IActionResult> List(string? searchQuery, string? sortBy, string? sortDirection, int pageSize = 3, int pageNumber = 1)
+        public async Task<IActionResult> GetAllTagPaginated(string? searchQuery, string? sortBy, string? sortDirection, int pageSize = 3, int pageNumber = 1)
         {
             var totalRecords = await tagRepository.CountAsync();
             var totalPages = Math.Ceiling((decimal)totalRecords / pageSize);
@@ -65,11 +65,19 @@ namespace API.Controllers
             //ViewBag.PageNumber = pageNumber;
             //ViewBag.PageSize = pageSize;
             //use db context to read tags
-            var tags = await tagRepository.GetAllAsync(searchQuery, sortBy, sortDirection, pageNumber, pageSize);
+            var tags = await tagRepository.GetAllPaginatedAsync(searchQuery, sortBy, sortDirection, pageNumber, pageSize);
 
             return Ok(
-                new JsonResult(new { tags = tags, TotalPages = totalPages, PageNumber = pageNumber, PageSize = pageSize  } )
+                new JsonResult(new { tags = tags, TotalPages = totalPages, PageNumber = pageNumber, PageSize = pageSize })
                 );
+        }
+
+        [HttpGet("get-all-blog-tags")]
+        public async Task<ActionResult<List<Tag>>> GetAllBlogTags()
+        {
+            var tags = await tagRepository.GetAllBlogTags();
+
+            return Ok(tags);
         }
 
         [HttpGet("Edit")]
@@ -81,7 +89,7 @@ namespace API.Controllers
             {
                 var editTagRequest = new EditTagRequest
                 {
-                    Id = tag.Id,
+                    Id = tag.Id.ToString(),
                     Name = tag.Name,
                     DisplayName = tag.DisplayName,
                 };
@@ -95,25 +103,46 @@ namespace API.Controllers
         [HttpPost("Edit")]
         public async Task<IActionResult> Edit(EditTagRequest editTagRequest)
         {
-            var tag = new Tag
+            if (string.IsNullOrEmpty(editTagRequest.Id))
             {
-                Id = editTagRequest.Id,
-                Name = editTagRequest.Name,
-                DisplayName = editTagRequest.DisplayName,
-            };
+                var tag = new Tag
+                {
+                    Name = editTagRequest.Name,
+                    DisplayName = editTagRequest.DisplayName,
+                };
 
-            var updatedTag = await tagRepository.UpdateAsync(tag);
+                var result = await tagRepository.AddAsync(tag);
 
-            if (updatedTag != null)
-            {
-                //show success notification
+                if (tag == null) return BadRequest();
+
                 return Ok(
-                new JsonResult(
-                    new { title = "Success", message = "Tag has been updated." }
-                )
-            );
+                    new JsonResult(
+                        new { title = "Success", message = "Tag has been added." }
+                    ));
             }
-            
+            else
+            {
+
+                var tag = await tagRepository.GetAsync(Guid.Parse(editTagRequest.Id));
+
+                if (tag == null) return NotFound();
+
+                tag.Name = editTagRequest.Name;
+                tag.DisplayName = editTagRequest.DisplayName;
+
+                var updatedTag = await tagRepository.UpdateAsync(tag);
+
+                if (updatedTag != null)
+                {
+                    //show success notification
+                    return Ok(
+                    new JsonResult(
+                        new { title = "Success", message = "Tag has been updated." }
+                    )
+                );
+                }
+            }
+
 
             return Ok(
                 new JsonResult(
@@ -121,6 +150,19 @@ namespace API.Controllers
                 )
             );
             //return RedirectToAction("Edit", new { id = editTagRequest.Id });
+        }
+
+        [HttpDelete("delete-tag/{id}")]
+        public async Task<IActionResult> DeleteTag(string id)
+        {
+            var tag = await tagRepository.DeleteAsync(Guid.Parse(id));
+
+            if (tag != null)
+            {
+                return Ok(new JsonResult(new { title = "Success", message = "Tag has been deleted" }));
+            }
+
+            return BadRequest(SD.TagNotFound);
         }
     }
 }

@@ -1,14 +1,59 @@
+<div class="my-3 justify-content-end"></div>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col">
+      <a class="btn btn-outline-primary" routerLink="/admin/admin-edit-tags"
+        >Create Tag</a
+      >
+    </div>
+    <div class="col col-md-3 d-flex">
+      <input
+        type="text"
+        class="form-control"
+        name="searchQuery"
+        id="searchQuery"
+        [(ngModel)]="searchQuery"
+        value=""
+      />
+      <button type="button" class="btn btn-warning ms-3" (click)="searchTag()">
+        Search
+      </button>
+    </div>
+  </div>
+</div>
+
 <div class="container mt-3">
   <table class="table">
     <thead>
       <tr>
         <th>Id</th>
         <th>
+          <span>
+            <a class="btn btn-light" (click)="soryBy('name', 'asc')">
+              <i class="fa-regular fa-circle-up"></i>
+            </a>
+          </span>
           Name
-          <span> </span>
+          <span>
+            <a class="btn btn-light" (click)="soryBy('name', 'Desc')">
+              <i class="fa-regular fa-circle-down"></i>
+            </a>
+          </span>
         </th>
-        <th>Display Name</th>
-        <th></th>
+        <th>
+          <span>
+            <a class="btn btn-light" (click)="soryBy('DisplayName', 'asc')">
+              <i class="fa-regular fa-circle-up"></i>
+            </a>
+          </span>
+          Display Name
+          <span>
+            <a class="btn btn-light" (click)="soryBy('DisplayName', 'Desc')">
+              <i class="fa-regular fa-circle-down"></i>
+            </a>
+          </span>
+        </th>
+        <th>Edit / Delete</th>
       </tr>
     </thead>
     <tbody>
@@ -22,6 +67,12 @@
             routerLink="/admin/admin-edit-tags/{{ tag.id }}"
           >
             Edit
+          </button>
+          <button
+            class="btn btn-danger btn-sm me-2"
+            (click)="deleteTag(tag.id, template)"
+          >
+            Delete
           </button>
         </td>
       </tr>
@@ -57,3 +108,15 @@
     </ul>
   </nav>
 </div>
+
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>Are you sure you want to delete Tag - {{ tagToDelete?.name }}</p>
+    <button type="button" class="btn btn-default" (click)="confirm()">
+      Yes
+    </button>
+    <button type="button" class="btn btn-primary" (click)="decline()">
+      No
+    </button>
+  </div>
+</ng-template>

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { NotificationComponent } from './components/modals/notification/notification.component';
 import { ExpiringSessionCountdownComponent } from './components/modals/expiring-session-countdown/expiring-session-countdown.component';
+import { AccountService } from '../account/account.service';
 
 @Injectable({
   providedIn: 'root',

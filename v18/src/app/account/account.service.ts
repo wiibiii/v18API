@@ -35,7 +35,7 @@ export class AccountService {
   refreshToken = async () => {
     this._http
       .post<User>(
-        `${environment.appUrl}account/refresh-token`,
+        `${environment.appUrl}account/refresh-page`,
         {},
         { withCredentials: true }
       )
@@ -113,7 +113,7 @@ export class AccountService {
   }
 
   login(model: Login) {
-    console.log(`${environment.appUrl}account/login`);
+    // console.log(`${environment.appUrl}account/login`);
     return this._http
       .post<User>(`${environment.appUrl}account/login`, model, {
         withCredentials: true,
@@ -150,8 +150,8 @@ export class AccountService {
     this.sharedService.displayExpiringSessionModal = false;
     clearTimeout(this.timeoutId);
     this.userSource.next(null);
-    this.router.navigateByUrl('/');
     this.stopRefreshTokenTimer();
+    this.router.navigateByUrl('/');
   }
 
   getJwt() {
@@ -172,13 +172,15 @@ export class AccountService {
       next: (user: User | null) => {
         //the user is logged in
         if (user) {
+          //console.log(this.sharedService.displayExpiringSessionModal);
           //if not currently displaying expiring session modal
           if (!this.sharedService.displayExpiringSessionModal) {
+            //console.log('countdown begins');
             this.timeoutId = setTimeout(() => {
               this.sharedService.displayExpiringSessionModal = true;
               this.sharedService.openExpirySessionCountdown();
               // in 10 minutes of user inactivity
-            }, 10 * 60 * 1000);
+            }, 10 * 30 * 1000);
           }
         }
       },
@@ -202,9 +204,10 @@ export class AccountService {
 
   private startRefreshTokenTimer(jwt: string) {
     const decodedToken: any = jwtDecode(jwt);
-
+    console.log(decodedToken.exp);
     //expires in seconds
     const expires = new Date(decodedToken.exp * 1000);
+    console.log(expires);
     //30 seconds before the expirry
     const timeout = expires.getTime() - Date.now() - 30 * 1000;
     this.refreshTokenTimeout = setTimeout(this.refreshToken, timeout);

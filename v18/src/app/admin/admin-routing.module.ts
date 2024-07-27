@@ -7,6 +7,7 @@ import { AdminGuard } from '../shared/guards/admin.guard';
 import { ListTagsComponent } from './blogs/tags/list-tags/list-tags.component';
 import { EditTagsComponent } from './blogs/tags/edit-tags/edit-tags.component';
 import { AddTagsComponent } from './blogs/tags/add-tags/add-tags.component';
+import { BlogPostsComponent } from './blogs/blog-posts/blog-posts.component';
 
 const routes: Routes = [
   //{ path: '', component: AdminComponent },
@@ -21,8 +22,10 @@ const routes: Routes = [
       //path for editing an existing member
       { path: 'add-edit-member/:id', component: AddEditMemberComponent },
       { path: 'admin-tags', component: ListTagsComponent },
+      { path: 'admin-edit-tags', component: EditTagsComponent },
       { path: 'admin-edit-tags/:id', component: EditTagsComponent },
-      { path: 'admin-add-tags', component: AddTagsComponent },
+      { path: 'admin-add-tag', component: AddTagsComponent },
+      { path: 'admin-add-blogpost', component: BlogPostsComponent },
     ],
   },
 ];

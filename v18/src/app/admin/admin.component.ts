@@ -62,6 +62,7 @@ export class AdminComponent implements OnInit {
           this.members = this.members.filter(
             (x) => x.id !== this.memberToDelete?.id
           );
+
           this.memberToDelete = undefined;
           this.modalRef?.hide();
         },

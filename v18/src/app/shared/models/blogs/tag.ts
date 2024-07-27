@@ -8,7 +8,7 @@ export interface Tag {
 }
 
 export interface EditTag {
-  id: string;
+  id?: string;
   name: string;
   displayName: string;
 }

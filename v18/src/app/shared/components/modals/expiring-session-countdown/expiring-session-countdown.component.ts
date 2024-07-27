@@ -11,7 +11,7 @@ import { AccountService } from '../../../../account/account.service';
 })
 export class ExpiringSessionCountdownComponent implements OnInit, OnDestroy {
   modalRef?: BsModalRef;
-  targetTime: number = 120; //countdown time in seconds 120
+  targetTime: number = 120; //countdown time in seconds 120=2min
   remainingTime: number = this.targetTime;
 
   displayTime: string = this.formatTime(this.remainingTime);
@@ -26,6 +26,7 @@ export class ExpiringSessionCountdownComponent implements OnInit, OnDestroy {
     this.stopCountDown();
   }
   ngOnInit(): void {
+    console.log('start countdown');
     this.startCountDown();
   }
 

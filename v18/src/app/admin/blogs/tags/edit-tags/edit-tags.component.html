@@ -1,15 +1,20 @@
 <div class="bg-secondary bg-opacity-10 py-2">
   <div class="container">
-    <h1>Edit Tag - Admin Functionality</h1>
+    <h1>
+      <span class="text-warning" *ngIf="addNew"
+        >Add Tag - Admin Functionality</span
+      >
+      <span class="text-warning" *ngIf="!addNew"
+        >Update Tag - Admin Functionality</span
+      >
+    </h1>
   </div>
 </div>
 
 <div class="container py-5">
-  <!-- @if(Model != null)
-    { -->
+  <!-- *ngIf="formInitialized" -->
   <form
     method="post"
-    *ngIf="formInitialized"
     [formGroup]="tagForm"
     (ngSubmit)="submit()"
     autocomplete="off"
@@ -67,9 +72,17 @@
 
     <div class="mb-3">
       <div class="d-flex">
-        <button type="submit" class="btn btn-dark">Update</button>
+        <button type="submit" class="btn btn-dark">
+          {{ addNew ? "Create Tag" : "Update Tag" }}
+        </button>
 
-        <button type="submit" class="btn btn-danger ms-2">Delete</button>
+        <button
+          type="button"
+          class="btn btn-danger ms-2"
+          routerLink="/admin/admin-tags"
+        >
+          Back to List
+        </button>
       </div>
     </div>
   </form>
@@ -77,5 +90,5 @@
     {
         
     } -->
-  <p *ngIf="!formInitialized">Tag not found!</p>
+  <!-- <p *ngIf="!formInitialized">Tag not found!</p> -->
 </div>

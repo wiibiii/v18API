@@ -15,6 +15,9 @@ namespace API
 
         public const string AdminUserName = "admin@example.com";
         public const string SuperAdminChangeNotAllowed = "Super Admin change is not allowed";
+
+        public const string TagNotFound = "Tag not found";
+
         public const int MaximumLoginAttemp = 3;
         public static bool VIPPolicy(AuthorizationHandlerContext context)
         {

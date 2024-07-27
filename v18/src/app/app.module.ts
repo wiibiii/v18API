@@ -10,6 +10,7 @@ import { PlayComponent } from './play/play.component';
 import { SharedModule } from './shared/shared.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './shared/interceptors/jwt.interceptor';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { JwtInterceptor } from './shared/interceptors/jwt.interceptor';
     AppRoutingModule,
     SharedModule,
     BrowserAnimationsModule,
+    FontAwesomeModule,
   ],
   providers: [
     {

@@ -28,7 +28,7 @@ namespace API.Controllers
         public async Task<ActionResult<IEnumerable<BlogHomeViewModel>>> Index()
         {
             var blogPosts = await blogPostRepository.GetAllAsync();
-            var tags = await tagRepository.GetAllAsync();
+            var tags = await tagRepository.GetAllBlogTags();
 
             var model = new BlogHomeViewModel
             {

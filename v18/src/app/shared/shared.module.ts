@@ -7,7 +7,7 @@ import { NotFoundComponent } from './components/errors/not-found/not-found.compo
 import { NotificationComponent } from './components/modals/notification/notification.component';
 import { UserHasRoleDirective } from './directives/user-has-role.directive';
 import { ValidationMessagesComponent } from './components/errors/validation-messages/validation-messages.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
@@ -20,6 +20,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     ExpiringSessionCountdownComponent,
   ],
   imports: [
+    FormsModule,
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
@@ -27,6 +28,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     ModalModule.forRoot(),
   ],
   exports: [
+    FormsModule,
     RouterModule,
     ReactiveFormsModule,
     HttpClientModule,

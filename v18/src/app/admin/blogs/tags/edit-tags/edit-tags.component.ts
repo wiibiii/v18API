@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { AdminService } from '../../../admin.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EditTag, Tag } from '../../../../shared/models/blogs/tag';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../../../shared/shared.service';
+import { BlogsService } from '../../../../blogs/blogs.service';
 
 @Component({
   selector: 'app-edit-tags',
@@ -15,18 +16,22 @@ export class EditTagsComponent implements OnInit {
   formInitialized = false;
   submitted = false;
   errorMessages: string[] = [];
+  tagToDelete: EditTag | undefined;
+  addNew: boolean = true;
   constructor(
     private adminService: AdminService,
     private router: Router,
     private activedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private blogService: BlogsService
   ) {}
 
   ngOnInit(): void {
     const id = this.activedRoute.snapshot.paramMap.get('id');
     if (id) {
-      this.adminService.editBlogTag(id).subscribe({
+      this.addNew = false;
+      this.blogService.editBlogTag(id).subscribe({
         next: (response: EditTag) => {
           this.formInitialized = true;
           this.initializeForm(response);
@@ -61,7 +66,7 @@ export class EditTagsComponent implements OnInit {
       // formValue.id = this.tagForm.get('id')?.value;
       // formValue.name = this.tagForm.get('name')?.value;
       // formValue.displayName = this.tagForm.get('displayName')?.value;
-      this.adminService.updateBlogTag(this.tagForm.value).subscribe({
+      this.blogService.updateBlogTag(this.tagForm.value).subscribe({
         next: (response: any) => {
           this.sharedService.showNotification(
             true,

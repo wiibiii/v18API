@@ -42,7 +42,7 @@ namespace API.Repositories
             return null;
         }
 
-        public async Task<IEnumerable<Tag>> GetAllAsync(string? searchQuery, string? sortBy, string? sortDirection, int pageNumber = 1, int pageSize = 100)
+        public async Task<IEnumerable<Tag>> GetAllPaginatedAsync(string? searchQuery, string? sortBy, string? sortDirection, int pageNumber = 1, int pageSize = 100)
         {
             //return await bloggieDbContext.Tags.ToListAsync();
             var query = bloggieDbContext.Tags.AsQueryable();
@@ -78,6 +78,11 @@ namespace API.Repositories
 
             return await query.ToListAsync();
         }
+        
+        public async Task<List<Tag>> GetAllBlogTags()
+        {
+            return await bloggieDbContext.Tags.ToListAsync();
+        }
 
         public async Task<Tag?> GetAsync(Guid id)
         {
@@ -108,5 +113,7 @@ namespace API.Repositories
             return null;
 
         }
+
+        
     }
 }

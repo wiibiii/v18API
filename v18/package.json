@@ -18,6 +18,8 @@
     "@angular/platform-browser": "^18.1.0",
     "@angular/platform-browser-dynamic": "^18.1.0",
     "@angular/router": "^18.1.0",
+    "@fortawesome/angular-fontawesome": "^0.15.0",
+    "@fortawesome/free-regular-svg-icons": "^6.5.2",
     "@types/google-one-tap": "^1.2.6",
     "bootstrap": "^5.3.3",
     "jwt-decode": "^4.0.0",

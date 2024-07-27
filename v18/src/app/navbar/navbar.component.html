@@ -41,7 +41,6 @@
             <!-- * -->
             <li
               class="nav-item dropdown"
-              ngbDropdown
               *appUserHasRole="['Admin', 'Manager']"
             >
               <a
@@ -50,7 +49,6 @@
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
-                ngbDropdownToggle
                 >Admin</a
               >
               <ul
@@ -74,6 +72,15 @@
                     routerLinkActive="active"
                     [routerLinkActiveOptions]="{ exact: true }"
                     >Admin Tags</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    routerLink="/admin/admin-add-blogpost"
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    >Admin Add BlogPost</a
                   >
                 </li>
               </ul>
