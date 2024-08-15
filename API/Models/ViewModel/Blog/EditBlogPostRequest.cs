@@ -1,8 +1,8 @@
-﻿using Azure;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace API.Models.Blog
+namespace API.Models.ViewModel.Blog
 {
-    public class BlogPost
+    public class EditBlogPostRequest
     {
         public Guid Id { get; set; }
         public string Heading { get; set; }
@@ -13,13 +13,8 @@ namespace API.Models.Blog
         public string UrlHandle { get; set; }
         public DateTime PublishedDate { get; set; }
         public string Author { get; set; }
-        public bool Visible { get; set; }
-
-        // Navigation property
-        //public ICollection<Tag> Tags { get; set; }
-
-        public string Tags { get; set; }
-        //public ICollection<BlogPostLike> Likes { get; set; }
-        //public ICollection<BlogPostComment> Comment { get; set; }
+        public bool Visible { get; set; }       
+        
+        public string[] SelectedTags { get; set; } = Array.Empty<string>();
     }
 }

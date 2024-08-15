@@ -11,44 +11,59 @@
   </div>
 </div>
 
-<div class="container py-5">
-  <!-- *ngIf="formInitialized" -->
-  <form
-    method="post"
-    [formGroup]="tagForm"
-    (ngSubmit)="submit()"
-    autocomplete="off"
-  >
+<div class="container py-5" *ngIf="formInitialized">
+  <form [formGroup]="tagForm" (ngSubmit)="submit()" autocomplete="off">
     <div class="mb-3">
+      <mat-form-field class="full-width">
+        <mat-label>Id</mat-label>
+        <input matInput placeholder="Id" readonly formControlName="Id" />
+      </mat-form-field>
+    </div>
+
+    <!-- <div class="mb-3">
       <label class="form-label">Id</label>
       <input
+        formControlName="Id"
         type="text"
-        id="id"
         class="form-control"
+        placeholder="Id"
         readonly
-        formControlName="id"
       />
+    </div> -->
+
+    <div class="mb-3">
+      <mat-form-field class="full-width">
+        <mat-label>Name</mat-label>
+        <input
+          required
+          matInput
+          placeholder="Name"
+          formControlName="Name"
+          [class.is-invalid]="submitted && tagForm.get('name')?.errors"
+        />
+        <mat-error
+          *ngIf="submitted && tagForm.get('Name')?.hasError('required')"
+          >Name is Required</mat-error
+        >
+      </mat-form-field>
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Name</label>
-      <input
-        type="text"
-        id="name"
-        class="form-control"
-        formControlName="name"
-        [class.is-invalid]="submitted && tagForm.get('name')?.errors"
-      />
-      <span
-        class="text-danger"
-        *ngIf="submitted && tagForm.get('name')?.hasError('required')"
-      >
-        Name is required
-      </span>
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">Display Name</label>
+      <mat-form-field class="full-width">
+        <mat-label>Display Name</mat-label>
+        <input
+          required
+          matInput
+          placeholder="displayName"
+          formControlName="displayName"
+          [class.is-invalid]="submitted && tagForm.get('displayName')?.errors"
+        />
+        <mat-error
+          *ngIf="submitted && tagForm.get('displayName')?.hasError('required')"
+          >Display Name is Required</mat-error
+        >
+      </mat-form-field>
+      <!-- <label class="form-label">Display Name</label>
       <input
         type="text"
         id="name"
@@ -61,7 +76,7 @@
         *ngIf="submitted && tagForm.get('displayName')?.hasError('required')"
       >
         Display Name is required
-      </span>
+      </span> -->
     </div>
 
     <div class="form-floating" *ngIf="errorMessages.length > 0">

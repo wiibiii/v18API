@@ -8,9 +8,15 @@ import { NotificationComponent } from './components/modals/notification/notifica
 import { UserHasRoleDirective } from './directives/user-has-role.directive';
 import { ValidationMessagesComponent } from './components/errors/validation-messages/validation-messages.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+
 import { ModalModule } from 'ngx-bootstrap/modal';
 
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
 @NgModule({
   declarations: [
     NotFoundComponent,
@@ -24,14 +30,24 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
-    HttpClientModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatDatepickerModule,
+    MatCheckboxModule,
+    MatSelectModule,
     ModalModule.forRoot(),
   ],
   exports: [
     FormsModule,
     RouterModule,
     ReactiveFormsModule,
-    HttpClientModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatCheckboxModule,
+    MatSelectModule,
     ValidationMessagesComponent,
     UserHasRoleDirective,
   ],

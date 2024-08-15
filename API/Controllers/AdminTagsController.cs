@@ -7,19 +7,36 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    public class NewDataModel
+    {
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public List<string> Tags { get; set; }
+    }
+
+    public class UpdateModelAndFile : NewDataModel
+    {
+        public IFormFile file { get; set; }
+    }
+
     [Route("api/[controller]")]
     [ApiController]
     public class AdminTagsController : ControllerBase
     {
         private readonly BloggieDbContext bloggieDbContext;
-        private readonly ITagRepository tagRepository;
+        private readonly ITagRepositoryRepository tagRepository;
 
-        public AdminTagsController(BloggieDbContext bloggieDbContext, ITagRepository tagRepository)
+        public AdminTagsController(BloggieDbContext bloggieDbContext, ITagRepositoryRepository tagRepository)
         {
             this.bloggieDbContext = bloggieDbContext;
             this.tagRepository = tagRepository;
         }
 
+        [HttpPost("test-upload")]
+        public async Task<IActionResult> testUpload([FromForm] UpdateModelAndFile model)
+        {
+            return Ok();
+        }
         //[HttpPost]
         //[ActionName("Add")]
         //public async Task<IActionResult> Add(AddTagRequest addTagRequest)
@@ -81,7 +98,8 @@ namespace API.Controllers
         }
 
         [HttpGet("Edit")]
-        public async Task<IActionResult> Edit(Guid id)
+        //public async Task<IActionResult> Edit(Guid id)
+        public async Task<IActionResult> Edit(long id)
         {
             var tag = await tagRepository.GetAsync(id);
 
@@ -111,7 +129,8 @@ namespace API.Controllers
                     DisplayName = editTagRequest.DisplayName,
                 };
 
-                var result = await tagRepository.AddAsync(tag);
+                //var result = await tagRepository.AddAsync(tag);
+                var result = await tagRepository.AddAsyncTagBySP(tag);
 
                 if (tag == null) return BadRequest();
 
@@ -123,14 +142,16 @@ namespace API.Controllers
             else
             {
 
-                var tag = await tagRepository.GetAsync(Guid.Parse(editTagRequest.Id));
+                //var tag = await tagRepository.GetAsync(Guid.Parse(editTagRequest.Id));
+                var tag = await tagRepository.GetAsync(long.Parse(editTagRequest.Id));
 
                 if (tag == null) return NotFound();
 
                 tag.Name = editTagRequest.Name;
                 tag.DisplayName = editTagRequest.DisplayName;
 
-                var updatedTag = await tagRepository.UpdateAsync(tag);
+                //var updatedTag = await tagRepository.UpdateAsync(tag);
+                var updatedTag = await tagRepository.UpdateAsyncBySP(tag);
 
                 if (updatedTag != null)
                 {
@@ -155,7 +176,8 @@ namespace API.Controllers
         [HttpDelete("delete-tag/{id}")]
         public async Task<IActionResult> DeleteTag(string id)
         {
-            var tag = await tagRepository.DeleteAsync(Guid.Parse(id));
+            //var tag = await tagRepository.DeleteAsync(Guid.Parse(id));
+            var tag = await tagRepository.DeleteAsyncBySP(long.Parse(id));
 
             if (tag != null)
             {

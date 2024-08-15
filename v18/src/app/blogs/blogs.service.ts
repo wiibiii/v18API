@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 import { SharedService } from '../shared/shared.service';
 import { environment } from '../../environments/environment';
 import { Home } from '../shared/models/blogs/home';
-import { Tag, EditTag } from '../shared/models/blogs/tag';
+import { Tag, EditTag, Tags } from '../shared/models/blogs/tag';
+import { AddBlogPostRequest } from '../shared/models/blogs/addBlogPostRequest';
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +37,7 @@ export class BlogsService {
     params = params.append('sortDirection', sortDirection);
     params = params.append('pageSize', pageSize);
     params = params.append('pageNUmber', pageNUmber);
-    return this.http.get<Tag[]>(
+    return this.http.get<Tags[]>(
       `${environment.appUrl}admintags/get-all-tag-paginated`,
       {
         params: params,
@@ -68,6 +69,15 @@ export class BlogsService {
     return this.http.delete(
       `${environment.appUrl}admintags/delete-tag/${id}`,
       {}
+    );
+  }
+
+  editBlog(id: string) {}
+
+  addBlogPost(model: AddBlogPostRequest) {
+    return this.http.post(
+      `${environment.appUrl}adminblogpost/admin-add-blog`,
+      model
     );
   }
 }

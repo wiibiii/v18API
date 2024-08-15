@@ -12,12 +12,12 @@ namespace API.Controllers
     {
         private readonly ILogger<BlogHomeController> logger;
         private readonly IBlogPostRepository blogPostRepository;
-        private readonly ITagRepository tagRepository;
+        private readonly ITagRepositoryRepository tagRepository;
 
         public BlogHomeController(
             ILogger<BlogHomeController> logger, 
             IBlogPostRepository blogPostRepository, 
-            ITagRepository tagRepository)
+            ITagRepositoryRepository tagRepository)
         {
             this.logger = logger;
             this.blogPostRepository = blogPostRepository;
@@ -26,6 +26,7 @@ namespace API.Controllers
         //TODO: add pagination
         [HttpGet("GetBlogs")]
         public async Task<ActionResult<IEnumerable<BlogHomeViewModel>>> Index()
+
         {
             var blogPosts = await blogPostRepository.GetAllAsync();
             var tags = await tagRepository.GetAllBlogTags();
@@ -36,6 +37,11 @@ namespace API.Controllers
                 Tags = tags
             };
             return Ok(model);
+
+            //return Ok(new JsonResult(
+            //                   new { title = "Blogs", blogs = model }
+            //                   )
+            //               );
         }
 
         [HttpGet("Error")]

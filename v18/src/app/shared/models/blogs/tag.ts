@@ -12,3 +12,10 @@ export interface EditTag {
   name: string;
   displayName: string;
 }
+
+export interface Tags {
+  id: string;
+  name: string;
+  displayName: string;
+  count: number;
+}

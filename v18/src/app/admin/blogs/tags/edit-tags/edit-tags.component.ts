@@ -45,17 +45,19 @@ export class EditTagsComponent implements OnInit {
   initializeForm(tag: EditTag | undefined) {
     if (tag) {
       this.tagForm = this.formBuilder.group({
-        id: [tag.id],
-        name: [tag.name, Validators.required],
+        Id: [tag.id],
+        Name: [tag.name, Validators.required],
         displayName: [tag.displayName, Validators.required],
       });
     } else {
       this.tagForm = this.formBuilder.group({
-        id: [''],
-        name: ['', Validators.required],
+        Id: [''],
+        Name: ['', Validators.required],
         displayName: ['', Validators.required],
       });
     }
+    this.formInitialized = true;
+    console.log(this.tagForm.get('Id')?.value);
   }
 
   submit() {

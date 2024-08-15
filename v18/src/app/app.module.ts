@@ -8,10 +8,11 @@ import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { PlayComponent } from './play/play.component';
 import { SharedModule } from './shared/shared.module';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
 import { JwtInterceptor } from './shared/interceptors/jwt.interceptor';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideNativeDateAdapter } from '@angular/material/core';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,6 +34,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
       useClass: JwtInterceptor,
       multi: true,
     },
+    provideHttpClient(),
+    provideAnimationsAsync(),
+    provideNativeDateAdapter(),
   ],
   bootstrap: [AppComponent],
 })

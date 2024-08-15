@@ -13,7 +13,7 @@ export interface BlogPost {
   publishedDate: Date;
   author: string;
   visible: boolean;
-  tags: Tag[];
-  likes: BlogPostLike[];
-  comment: BloghomeComponent[];
+  tags: string;
+  // likes: BlogPostLike[];
+  // comment: BloghomeComponent[];
 }

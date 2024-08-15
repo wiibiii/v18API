@@ -13,5 +13,7 @@ namespace API.Repositories.Interface
         Task<BlogPost> AddAsync(BlogPost blogPost);
         Task<BlogPost?> UpdateAsync(BlogPost blogPost);
         Task<BlogPost?> DeleteAsync(Guid id);
+
+        Task<int> AddAsyncBySP(BlogPost blogPost);
     }
 }

@@ -11,6 +11,7 @@ import { BlogPost } from '../../shared/models/blogs/blogPost';
 export class BloghomeComponent implements OnInit {
   home: Home | undefined;
   blogs: BlogPost[] = [];
+  errorMessages: string[] = [];
   constructor(private blogService: BlogsService) {}
 
   ngOnInit(): void {
@@ -20,13 +21,20 @@ export class BloghomeComponent implements OnInit {
   getBlogs() {
     this.blogService.getAllBlogs().subscribe({
       next: (blogs: Home | undefined) => {
-        //console.log(blogs);
+        console.log(blogs);
         // if (blogs.blogPosts.length > 0) {
         //   this.home.blogPosts = blogs.blogPosts;
         // }
         this.home = blogs;
 
         // console.log('Author: ' + this.home.BlogPosts[0].author);
+      },
+      error: (error) => {
+        if (error.error.errors) {
+          this.errorMessages = error.error.errors;
+        } else {
+          this.errorMessages.push(error.error);
+        }
       },
     });
   }

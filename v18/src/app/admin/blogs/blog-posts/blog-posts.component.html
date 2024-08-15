@@ -4,31 +4,71 @@
   </div>
 </div>
 
-<div class="container py-5">
-  <form method="post">
+<div class="container py-5" *ngIf="formInitialized">
+  <form
+    method="post"
+    [formGroup]="blogPostForm"
+    (ngSubmit)="submit()"
+    autocomplete="off"
+  >
     <div class="mb-3">
-      <label class="form-label">Heading</label>
-      <input type="text" class="form-control" id="heading" />
+      <mat-form-field class="full-width">
+        <mat-label>Heading</mat-label>
+        <input
+          matInput
+          placeholder="Heading"
+          required
+          formControlName="heading"
+        />
+      </mat-form-field>
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Page Title</label>
-      <input type="text" class="form-control" id="pageTitle" />
+      <mat-form-field class="full-width">
+        <mat-label>Page Title</mat-label>
+        <input
+          matInput
+          placeholder="Page Title"
+          required
+          formControlName="pageTitle"
+        />
+      </mat-form-field>
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Content</label>
-      <textarea class="form-control" id="content"></textarea>
+      <mat-form-field class="full-width">
+        <mat-label>Content</mat-label>
+        <textarea
+          matInput
+          placeholder="Content ..."
+          required
+          formControlName="content"
+        ></textarea>
+      </mat-form-field>
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Short Description</label>
-      <input type="text" class="form-control" id="shortDescription" />
+      <mat-form-field class="full-width">
+        <mat-label>Short Description</mat-label>
+        <input
+          matInput
+          placeholder="Short Description"
+          required
+          formControlName="shortDescription"
+        />
+      </mat-form-field>
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Featured Image Upload</label>
-      <input type="file" id="featureImageUpload" class="form-control" />
+      <mat-form-field class="full-width">
+        <mat-label>Featured Image Upload</mat-label>
+        <input
+          matInput
+          placeholder="Featured Image Upload"
+          required
+          formControlName="featuredImageUrl"
+        />
+      </mat-form-field>
 
       <img
         src=""
@@ -37,33 +77,88 @@
       />
     </div>
     <div class="mb-3">
-      <label class="form-label">Featured ImageUrl</label>
-      <input type="text" class="form-control" id="featuredImageUrl" />
+      <mat-form-field class="full-width">
+        <mat-label>Featured ImageUrl</mat-label>
+        <input
+          matInput
+          placeholder="Featured ImageUrl"
+          required
+          formControlName="featuredImageUrl"
+        />
+      </mat-form-field>
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Url Handle</label>
-      <input type="text" class="form-control" id="urlHandle" />
+      <mat-form-field class="full-width">
+        <mat-label>Url Handle</mat-label>
+        <input
+          matInput
+          placeholder="Url Handle"
+          required
+          formControlName="urlHandle"
+        />
+      </mat-form-field>
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Published Date</label>
-      <input type="date" class="form-control" id="publishedDate" />
+      <mat-form-field class="full-width">
+        <mat-label>Published Date</mat-label>
+        <input
+          matInput
+          placeholder="Published Date"
+          required
+          formControlName="publishedDate"
+          [matDatepicker]="publishedDatePicker"
+        />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="publishedDatePicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #publishedDatePicker></mat-datepicker>
+      </mat-form-field>
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Author</label>
-      <input type="text" class="form-control" id="author" />
+      <mat-form-field class="full-width">
+        <mat-label>Author</mat-label>
+        <input
+          matInput
+          placeholder="Author"
+          required
+          formControlName="author"
+        />
+      </mat-form-field>
     </div>
 
     <div class="form-check mb-3">
-      <input class="form-check-input" type="checkbox" id="Visible" />
-      <label class="form-check-label"> Is Visible? </label>
+      <mat-checkbox class="full-width">Is Visible?</mat-checkbox>
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Tags</label>
-      <select class="form-select"></select>
+      <!-- <label class="form-label">Tags</label> -->
+      <mat-form-field class="full-width">
+        <mat-label>Tags</mat-label>
+        <mat-select multiple formControlName="tags">
+          <mat-select-trigger>
+            {{ tags.value }}
+            @if ((tags.value?.length || 0) > 1) {
+            <span class="example-additional-selection">
+              (+{{ (tags.value?.length || 0) - 1 }}
+              {{ tags.value?.length === 2 ? "other" : "others" }})
+            </span>
+            }
+          </mat-select-trigger>
+          @for (tag of allTags; track tag) {
+          <mat-option [value]="tag.name">{{ tag.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="form-floating" *ngIf="errorMessages.length > 0">
+      <app-validation-messages
+        [errorMessages]="errorMessages"
+      ></app-validation-messages>
     </div>
 
     <div class="mb-3">

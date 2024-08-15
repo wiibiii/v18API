@@ -21,6 +21,12 @@
   </div>
 </div>
 
+<div class="form-floating" *ngIf="errorMessages.length > 0">
+  <app-validation-messages
+    [errorMessages]="errorMessages"
+  ></app-validation-messages>
+</div>
+
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-6 d-flex">
@@ -52,8 +58,11 @@
           Published Date : {{ blogs.publishedDate | date }}
         </p>
         <p class="mb-4">
-          <span class="badge bg-secondary me-1" *ngFor="let tag of home?.tags">
-            {{ tag.name }}
+          <span
+            class="badge bg-secondary me-1"
+            *ngFor="let tag of blogs.tags?.split(',')"
+          >
+            {{ tag }}
           </span>
         </p>
         <h2 class="mb-4">{{ blogs.shortDescription }}</h2>

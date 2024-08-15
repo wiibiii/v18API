@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { AdminService } from '../../../admin.service';
-import { Tag } from '../../../../shared/models/blogs/tag';
+import { Tag, Tags } from '../../../../shared/models/blogs/tag';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { BlogsService } from '../../../../blogs/blogs.service';
 import { SharedService } from '../../../../shared/shared.service';
@@ -18,8 +18,8 @@ export class ListTagsComponent implements OnInit {
     private sharedService: SharedService
   ) {}
 
-  blogTags: Tag[] = [];
-  tagToDelete: Tag | undefined;
+  blogTags: Tags[] = [];
+  tagToDelete: Tags | undefined;
   totalPages = 0;
   pageNumber = 0;
   pageSize = 3;
@@ -59,6 +59,9 @@ export class ListTagsComponent implements OnInit {
           this.pageSize = tags.value.pageSize;
           this.nextPage = this.pageNumber + 1;
           this.previousPage = this.pageNumber - 1;
+        },
+        error: (error) => {
+          console.log(error);
         },
       });
   }
@@ -120,7 +123,7 @@ export class ListTagsComponent implements OnInit {
     this.modalService?.hide();
   }
 
-  private findTag(id: string): Tag | undefined {
+  private findTag(id: string): Tags | undefined {
     let tag = this.blogTags.find((x) => x.id === id);
     if (tag) return tag;
     return undefined;
