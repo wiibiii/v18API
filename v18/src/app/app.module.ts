@@ -13,6 +13,7 @@ import { JwtInterceptor } from './shared/interceptors/jwt.interceptor';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,6 +28,8 @@ import { provideNativeDateAdapter } from '@angular/material/core';
     SharedModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
+    // FroalaEditorModule.forRoot(),
+    // FroalaViewModule.forRoot(),
   ],
   providers: [
     {

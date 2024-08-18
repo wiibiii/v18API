@@ -42,6 +42,7 @@ export class ListTagsComponent implements OnInit {
     pageNumber = 1
   ) {
     //this.blogTags = [];
+
     this.blogService
       .getAllBlogTagsPaginated(
         searchQuery,
@@ -53,6 +54,7 @@ export class ListTagsComponent implements OnInit {
       .subscribe({
         next: (tags: any) => {
           //console.log(tags);
+
           this.blogTags = tags.value.tags;
           this.totalPages = tags.value.totalPages;
           this.pageNumber = tags.value.pageNumber;

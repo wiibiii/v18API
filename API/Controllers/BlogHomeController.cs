@@ -28,20 +28,18 @@ namespace API.Controllers
         public async Task<ActionResult<IEnumerable<BlogHomeViewModel>>> Index()
 
         {
-            var blogPosts = await blogPostRepository.GetAllAsync();
-            var tags = await tagRepository.GetAllBlogTags();
+            //var blogPosts = await blogPostRepository.GetAllAsync();
+            //var tags = await tagRepository.GetAllBlogTags();
 
-            var model = new BlogHomeViewModel
-            {
-                BlogPosts = blogPosts,
-                Tags = tags
-            };
-            return Ok(model);
+            //var model = new BlogHomeViewModel
+            //{
+            //    BlogPosts = blogPosts,
+            //    Tags = tags
+            //};
+            //return Ok(model);
 
-            //return Ok(new JsonResult(
-            //                   new { title = "Blogs", blogs = model }
-            //                   )
-            //               );
+
+            return Ok();
         }
 
         [HttpGet("Error")]

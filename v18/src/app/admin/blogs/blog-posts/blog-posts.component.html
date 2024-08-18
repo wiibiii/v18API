@@ -1,6 +1,11 @@
 <div class="bg-secondary bg-opacity-10 py-2">
   <div class="container">
-    <h1>Add New BlogPost - Admin Functionality</h1>
+    <span class="text-warning" *ngIf="addNew"
+      >Add Blog - Admin Functionality</span
+    >
+    <span class="text-warning" *ngIf="!addNew"
+      >Update Blog - Admin Functionality</span
+    >
   </div>
 </div>
 
@@ -39,6 +44,7 @@
       <mat-form-field class="full-width">
         <mat-label>Content</mat-label>
         <textarea
+          [froalaEditor]
           matInput
           placeholder="Content ..."
           required
@@ -67,13 +73,25 @@
           placeholder="Featured Image Upload"
           required
           formControlName="featuredImageUrl"
+          readonly
+          [value]="fileName"
         />
+        <input
+          type="file"
+          hidden
+          #fileInput
+          (change)="onFileSelected($event)"
+        />
+        <button mat-button type="button" (click)="fileInput.click()">
+          Browse
+        </button>
       </mat-form-field>
 
       <img
-        src=""
+        *ngIf="blogPostForm.get('featuredImageUrl')?.value !== null"
+        src="{{ blogPostForm.get('featuredImageUrl')?.value }}"
         id="featuredImageDisplay"
-        style="display: none; width: 300px"
+        style="width: 300px"
       />
     </div>
     <div class="mb-3">

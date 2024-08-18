@@ -4,9 +4,10 @@ namespace API.Repositories.Interface
 {
     public interface ITagRepositoryRepository
     {
-        Task<IEnumerable<Tags>> GetAllPaginatedAsync(string? searchQuery = null, string? sortBy = null, string? sortDirection = null, int pageNumber = 100, int pageSize = 1);
+        Task<IEnumerable<Tags>> GetAllPaginatedAsyncBySP(string? searchQuery = null, string? sortBy = null, string? sortDirection = null, int pageNumber = 100, int pageSize = 1);
 
         Task<List<Tag?>> GetAllBlogTags();
+        Task<List<Tag>> GetAllBlogTagsBySP();
 
         //Task<Tag?> GetAsync(Guid id);
         Task<Tags?> GetAsync(long id);

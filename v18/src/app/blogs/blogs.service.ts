@@ -6,6 +6,7 @@ import { environment } from '../../environments/environment';
 import { Home } from '../shared/models/blogs/home';
 import { Tag, EditTag, Tags } from '../shared/models/blogs/tag';
 import { AddBlogPostRequest } from '../shared/models/blogs/addBlogPostRequest';
+import { BlogPost } from '../shared/models/blogs/blogPost';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +21,26 @@ export class BlogsService {
   getAllBlogs() {
     return this.http.get<Home | undefined>(
       `${environment.appUrl}bloghome/getblogs`
+    );
+  }
+
+  getAllBlogsPaginated(
+    searchQuery: string,
+    sortBy: string,
+    sortDirection: string,
+    pageSize: number = 3,
+    pageNUmber: number = 1
+  ) {
+    let params = new HttpParams();
+    params = params.append('searchQuery', searchQuery);
+    params = params.append('sortBy', sortBy);
+    params = params.append('sortDirection', sortDirection);
+    params = params.append('pageSize', pageSize);
+    params = params.append('pageNUmber', pageNUmber);
+
+    return this.http.get<BlogPost[]>(
+      `${environment.appUrl}adminblogpost/get-all-blogs-paginated`,
+      { params: params }
     );
   }
 
@@ -72,7 +93,15 @@ export class BlogsService {
     );
   }
 
-  editBlog(id: string) {}
+  editBlog(id: string) {
+    let params = new HttpParams();
+
+    params = params.append('id', id);
+
+    return this.http.get<BlogPost>(`${environment.appUrl}adminblogpost/edit`, {
+      params: params,
+    });
+  }
 
   addBlogPost(model: AddBlogPostRequest) {
     return this.http.post(

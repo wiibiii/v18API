@@ -23,6 +23,8 @@
     "@fortawesome/angular-fontawesome": "^0.15.0",
     "@fortawesome/free-regular-svg-icons": "^6.5.2",
     "@types/google-one-tap": "^1.2.6",
+    "angular-froala": "^4.0.19",
+    "angular-froala-wysiwyg": "^4.2.1",
     "bootstrap": "^5.3.3",
     "jwt-decode": "^4.0.0",
     "ngx-bootstrap": "^18.0.0",

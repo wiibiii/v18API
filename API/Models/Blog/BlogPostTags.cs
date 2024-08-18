@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace API.Models.Blog
 {
-    [Keyless]
+    //[Keyless]
     public class BlogPostTags
     {
         
-        public Guid BlogPostsId { get; set; }
-        public Guid TagsId { get; set; }
+        public long BlogPostsId { get; set; }
+        public string TagsId { get; set; }
     }
 }

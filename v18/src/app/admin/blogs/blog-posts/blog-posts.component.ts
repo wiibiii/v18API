@@ -23,7 +23,8 @@ export class BlogPostsComponent implements OnInit {
   submitted = false;
   errorMessages: string[] = [];
   allTags: Tag[] = [];
-
+  addNew = false;
+  fileName: string = '';
   get tags(): FormControl {
     return this.blogPostForm.get('tags') as FormControl;
   }
@@ -40,27 +41,51 @@ export class BlogPostsComponent implements OnInit {
     const id = this.activedRoute.snapshot.paramMap.get('id');
 
     if (id) {
+      this.addNew = false;
+      this.blogService.editBlog(id).subscribe({
+        next: (res: BlogPost) => {
+          this.formInitialized = true;
+          this.initializeForm(res);
+        },
+      });
     } else {
+      this.addNew = true;
       this.initializeForm(undefined);
     }
 
     this.getAllBlogTags();
   }
 
-  initializeForm(tag: BlogPost | undefined) {
-    this.blogPostForm = this.formBuilder.group({
-      id: [''],
-      heading: ['', Validators.required],
-      pageTitle: ['', Validators.required],
-      content: ['', Validators.required],
-      shortDescription: ['', Validators.required],
-      featuredImageUrl: ['', Validators.required],
-      urlHandle: ['', Validators.required],
-      publishedDate: ['', Validators.required],
-      author: ['', Validators.required],
-      visible: [true, Validators.required],
-      tags: ['', Validators.required],
-    });
+  initializeForm(blog: BlogPost | undefined) {
+    if (blog) {
+      this.blogPostForm = this.formBuilder.group({
+        id: [blog.id],
+        heading: [blog.heading, Validators.required],
+        pageTitle: [blog.pageTitle, Validators.required],
+        content: [blog.content, Validators.required],
+        shortDescription: [blog.shortDescription, Validators.required],
+        featuredImageUrl: [blog.featuredImageUrl, Validators.required],
+        urlHandle: [blog.urlHandle, Validators.required],
+        publishedDate: [blog.publishedDate, Validators.required],
+        author: [blog.author, Validators.required],
+        visible: [blog.visible, Validators.required],
+        tags: [blog.tags, Validators.required],
+      });
+    } else {
+      this.blogPostForm = this.formBuilder.group({
+        id: [''],
+        heading: ['', Validators.required],
+        pageTitle: ['', Validators.required],
+        content: ['', Validators.required],
+        shortDescription: ['', Validators.required],
+        featuredImageUrl: ['', Validators.required],
+        urlHandle: ['', Validators.required],
+        publishedDate: ['', Validators.required],
+        author: ['', Validators.required],
+        visible: [true, Validators.required],
+        tags: ['', Validators.required],
+      });
+    }
 
     this.formInitialized = true;
   }
@@ -93,6 +118,13 @@ export class BlogPostsComponent implements OnInit {
           }
         },
       });
+    }
+  }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.fileName = input.files[0].name;
     }
   }
 }

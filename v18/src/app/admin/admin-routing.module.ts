@@ -8,6 +8,7 @@ import { ListTagsComponent } from './blogs/tags/list-tags/list-tags.component';
 import { EditTagsComponent } from './blogs/tags/edit-tags/edit-tags.component';
 import { AddTagsComponent } from './blogs/tags/add-tags/add-tags.component';
 import { BlogPostsComponent } from './blogs/blog-posts/blog-posts.component';
+import { ListBlogpostsComponent } from './blogs/list-blogposts/list-blogposts.component';
 
 const routes: Routes = [
   //{ path: '', component: AdminComponent },
@@ -25,7 +26,9 @@ const routes: Routes = [
       { path: 'admin-edit-tags', component: EditTagsComponent },
       { path: 'admin-edit-tags/:id', component: EditTagsComponent },
       { path: 'admin-add-tag', component: AddTagsComponent },
-      { path: 'admin-add-blogpost', component: BlogPostsComponent },
+      { path: 'admin-blogpost', component: ListBlogpostsComponent },
+      { path: 'admin-edit-blogpost', component: BlogPostsComponent },
+      { path: 'admin-edit-blogpost/:id', component: BlogPostsComponent },
     ],
   },
 ];

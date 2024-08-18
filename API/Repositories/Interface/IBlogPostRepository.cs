@@ -4,9 +4,11 @@ namespace API.Repositories.Interface
 {
     public interface IBlogPostRepository
     {
-        Task<IEnumerable<BlogPost>> GetAllAsync();
+        Task<IEnumerable<BlogPost>> GetAllAsyncBySP();
 
-        Task<BlogPost?> GetAsync(Guid id);
+        Task<IEnumerable<BlogPost>> GetAllPaginatedAsyncBySP(string? searchQuery, string? sortBy, string? sortDirection, int pageNumber = 1, int pageSize = 100);
+
+        Task<BlogPost?> GetAsync(long id);
 
         Task<BlogPost?> GetByUrlHandleAsync(string urlHandle);
 

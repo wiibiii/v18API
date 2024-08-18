@@ -62,8 +62,33 @@ namespace API.Controllers
 
         public async Task<IActionResult> GetAllTagPaginated(string? searchQuery, string? sortBy, string? sortDirection, int pageSize = 3, int pageNumber = 1)
         {
-            var totalRecords = await tagRepository.CountAsync();
-            var totalPages = Math.Ceiling((decimal)totalRecords / pageSize);
+            //var totalRecords = await tagRepository.CountAsync();
+            //var totalPages = Math.Ceiling((decimal)totalRecords / pageSize);
+
+            //if (pageNumber > totalPages)
+            //{
+            //    pageNumber--;
+            //}
+
+            //if (pageNumber < 1)
+            //{
+            //    pageNumber++;
+            //}
+
+            //ViewBag.TotalPages = totalPages;
+            //ViewBag.SearchQuery = searchQuery;
+            //ViewBag.SortBy = sortBy;
+            //ViewBag.SortDirection = sortDirection;
+            //ViewBag.PageNumber = pageNumber;
+            //ViewBag.PageSize = pageSize;
+            //use db context to read tags
+
+            //var totalRecords = tags.Count();
+            //var totalPages = Math.Ceiling((decimal)totalRecords / pageSize);
+
+            
+            var totalRecords = await tagRepository.GetAllBlogTagsBySP();
+            var totalPages = Math.Ceiling((decimal)totalRecords.Count() / pageSize);
 
             if (pageNumber > totalPages)
             {
@@ -75,15 +100,9 @@ namespace API.Controllers
                 pageNumber++;
             }
 
-            //ViewBag.TotalPages = totalPages;
-            //ViewBag.SearchQuery = searchQuery;
-            //ViewBag.SortBy = sortBy;
-            //ViewBag.SortDirection = sortDirection;
-            //ViewBag.PageNumber = pageNumber;
-            //ViewBag.PageSize = pageSize;
-            //use db context to read tags
-            var tags = await tagRepository.GetAllPaginatedAsync(searchQuery, sortBy, sortDirection, pageNumber, pageSize);
+            var tags = await tagRepository.GetAllPaginatedAsyncBySP(searchQuery, sortBy, sortDirection, pageNumber, pageSize);
 
+            
             return Ok(
                 new JsonResult(new { tags = tags, TotalPages = totalPages, PageNumber = pageNumber, PageSize = pageSize })
                 );
@@ -92,7 +111,8 @@ namespace API.Controllers
         [HttpGet("get-all-blog-tags")]
         public async Task<ActionResult<List<Tag>>> GetAllBlogTags()
         {
-            var tags = await tagRepository.GetAllBlogTags();
+            //var tags = await tagRepository.GetAllBlogTags();
+            var tags = await tagRepository.GetAllBlogTagsBySP();
 
             return Ok(tags);
         }

@@ -1,0 +1,133 @@
+<div class="my-3 justify-content-end">
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col">
+        <a class="btn btn-outline-primary" routerLink="/admin/admin-edit-tags"
+          >Create BlogPost</a
+        >
+      </div>
+      <div class="col col-md-3 d-flex">
+        <input
+          type="text"
+          class="form-control"
+          name="searchQuery"
+          id="searchQuery"
+          [(ngModel)]="searchQuery"
+          value=""
+        />
+        <!-- (click)="searchTag()" -->
+        <button type="button" class="btn btn-warning ms-3">Search</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container py-5">
+    <table class="table" *ngIf="blogs">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>
+            <span>
+              <a
+                class="btn btn-light"
+                (click)="sortByAHeader('heading', 'asc')"
+              >
+                <i class="fa-regular fa-circle-up"></i>
+              </a>
+            </span>
+            Heading
+            <span>
+              <a
+                class="btn btn-light"
+                (click)="sortByAHeader('heading', 'Desc')"
+              >
+                <i class="fa-regular fa-circle-down"></i>
+              </a>
+            </span>
+          </th>
+          <th>Tags</th>
+          <th>Edit / Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let blog of blogs">
+          <td>{{ blog.id }}</td>
+          <td>{{ blog.heading }}</td>
+          <td>
+            <div class="d-flex">
+              <span
+                class="badge bg-secondary me-1"
+                *ngFor="let tag of blog.tags.split(',')"
+                >{{ tag }}</span
+              >
+            </div>
+          </td>
+          <td>
+            <div class="d-flex">
+              <button
+                class="btn btn-primary btn-sm me-2"
+                routerLink="/admin/admin-edit-blogpost/{{ blog.id }}"
+              >
+                Edit
+              </button>
+
+              <button
+                class="btn btn-danger btn-sm me-2"
+                (click)="deleteBlog(blog.id, template)"
+              >
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <nav aria-label="Page Navigation">
+      <ul class="pagination">
+        <li class="page-item">
+          <a
+            class="page-link btn"
+            (click)="getAllBlogs('', '', '', pageSize, previousPage)"
+          >
+            Previous
+          </a>
+        </li>
+        <li *ngFor="let blog of [].constructor(totalPages); let i = index">
+          <a
+            class="page-link btn"
+            (click)="getAllBlogs('', '', '', pageSize, i + 1)"
+          >
+            <ng-container *ngIf="pageNumber === i + 1">
+              <b>{{ i + 1 }}</b>
+            </ng-container>
+            <ng-container *ngIf="pageNumber !== i + 1">
+              {{ i + 1 }}
+            </ng-container>
+          </a>
+        </li>
+        <li class="page-item">
+          <a
+            class="page-link btn"
+            (click)="getAllBlogs('', '', '', pageSize, nextPage)"
+          >
+            Next
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <p *ngIf="!blogs">No blog post found.</p>
+  </div>
+</div>
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>Are you sure you want to delete blog - {{ blogToDelete?.heading }}</p>
+    <button type="button" class="btn btn-default" (click)="confirm()">
+      Yes
+    </button>
+    <button type="button" class="btn btn-primary" (click)="decline()">
+      No
+    </button>
+  </div>
+</ng-template>

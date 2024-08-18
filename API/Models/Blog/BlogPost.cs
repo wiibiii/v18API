@@ -4,7 +4,7 @@ namespace API.Models.Blog
 {
     public class BlogPost
     {
-        public Guid Id { get; set; }
+        public long Id { get; set; }
         public string Heading { get; set; }
         public string PageTitle { get; set; }
         public string Content { get; set; }

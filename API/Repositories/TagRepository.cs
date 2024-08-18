@@ -55,6 +55,20 @@ namespace API.Repositories
             return await bloggieDbContext.Tags.CountAsync();
         }
 
+        public async Task<int> CountAsyncBySp()
+        {
+            try
+            {
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return await bloggieDbContext.Tags.CountAsync();
+        }
+
         public async Task<Tag?> DeleteAsync(Guid id)
         {
             var existingTag = await bloggieDbContext.Tags.FindAsync(id);
@@ -104,7 +118,7 @@ namespace API.Repositories
             return null;
         }
 
-        public async Task<IEnumerable<Tags>> GetAllPaginatedAsync(string? searchQuery, string? sortBy, string? sortDirection, int pageNumber = 1, int pageSize = 100)
+        public async Task<IEnumerable<Tags>> GetAllPaginatedAsyncBySP(string? searchQuery, string? sortBy, string? sortDirection, int pageNumber = 1, int pageSize = 100)
         {
 
             try
@@ -116,7 +130,7 @@ namespace API.Repositories
                     pageNumber = pageNumber,
                 };
 
-                var retFromDb = await conn.QueryAsync<Tags>("[sel_AllTags]", parameters, commandType: CommandType.StoredProcedure);
+                var retFromDb = await conn.QueryAsync<Tags>("[sel_AllTagsPaginated]", parameters, commandType: CommandType.StoredProcedure);
 
                 //return await bloggieDbContext.Tags.ToListAsync();
                 //var query = bloggieDbContext.Tags.AsQueryable();
@@ -165,6 +179,27 @@ namespace API.Repositories
         public async Task<List<Tag>> GetAllBlogTags()
         {
             return await bloggieDbContext.Tags.ToListAsync();
+        }
+
+        public async Task<List<Tag>> GetAllBlogTagsBySP()
+        {
+            try
+            {
+                using var conn = new SqlConnection(bloggieDbContext.Database.GetConnectionString());
+
+
+                var retFromDb = await conn.QueryAsync<Tags>("[sel_AllTagsNonPaginated]", null, commandType: CommandType.StoredProcedure);
+
+                if (retFromDb != null) 
+                    return retFromDb.Select( x =>new Tag { Id = x.Id, DisplayName = x.DisplayName, Name = x.Name}).ToList();
+
+                return null;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         //public async Task<Tag?> GetAsync(Guid id)
