@@ -41,16 +41,19 @@
     </div>
 
     <div class="mb-3">
-      <mat-form-field class="full-width">
+      <!-- <mat-form-field class="full-width">
         <mat-label>Content</mat-label>
-        <textarea
-          [froalaEditor]
-          matInput
-          placeholder="Content ..."
-          required
-          formControlName="content"
-        ></textarea>
-      </mat-form-field>
+      </mat-form-field> -->
+      <textarea
+        [froalaEditor]="options"
+        [(froalaModel)]="editorContent"
+        matInput
+        placeholder="Content ..."
+        required
+        formControlName="content"
+        (change)="onUploadFeaturedImage($event)"
+        class="froala-editor"
+      ></textarea>
     </div>
 
     <div class="mb-3">
@@ -72,9 +75,8 @@
           matInput
           placeholder="Featured Image Upload"
           required
-          formControlName="featuredImageUrl"
-          readonly
           [value]="fileName"
+          readonly
         />
         <input
           type="file"
@@ -149,14 +151,16 @@
     </div>
 
     <div class="form-check mb-3">
-      <mat-checkbox class="full-width">Is Visible?</mat-checkbox>
+      <mat-checkbox class="full-width" formControlName="visible"
+        >Is Visible?</mat-checkbox
+      >
     </div>
 
     <div class="mb-3">
       <!-- <label class="form-label">Tags</label> -->
       <mat-form-field class="full-width">
         <mat-label>Tags</mat-label>
-        <mat-select multiple formControlName="tags">
+        <mat-select multiple formControlName="tags" [(value)]="selectedTags">
           <mat-select-trigger>
             {{ tags.value }}
             @if ((tags.value?.length || 0) > 1) {

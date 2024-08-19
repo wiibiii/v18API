@@ -10,7 +10,7 @@ import { ListTagsComponent } from './blogs/tags/list-tags/list-tags.component';
 import { BlogPostsComponent } from './blogs/blog-posts/blog-posts.component';
 import { ListBlogpostsComponent } from './blogs/list-blogposts/list-blogposts.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
-
+import 'froala-editor/js/plugins.pkgd.min.js';
 @NgModule({
   declarations: [
     AdminComponent,

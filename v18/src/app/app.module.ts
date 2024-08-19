@@ -14,6 +14,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+// Import all Froala Editor plugins.
+import 'froala-editor/js/plugins.pkgd.min.js';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,8 +30,8 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
     SharedModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
-    // FroalaEditorModule.forRoot(),
-    // FroalaViewModule.forRoot(),
+    FroalaEditorModule.forRoot(),
+    FroalaViewModule.forRoot(),
   ],
   providers: [
     {

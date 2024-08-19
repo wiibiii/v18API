@@ -42,6 +42,7 @@ builder.Services.AddScoped<IBlogPostLikeRepository, BlogPostLikeRepository>();
 builder.Services.AddScoped<IBlogPostCommentRepository, BlogPostCommentRepository>();
 builder.Services.AddScoped<IBlogPostTagsRepository, BlogPostTagsRepository>();
 builder.Services.AddScoped<ITagRepositoryRepository, TagRepository>();
+builder.Services.AddScoped<IImageRepository, ImageRepository>();
 
 // defining our IdentityCore Service
 builder.Services.AddIdentityCore<User>(options =>

@@ -11,6 +11,7 @@ import { BlogPost } from '../../../shared/models/blogs/blogPost';
 import { Tag } from '../../../shared/models/blogs/tag';
 import { SharedService } from '../../../shared/shared.service';
 import { AddBlogPostRequest } from '../../../shared/models/blogs/addBlogPostRequest';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-blog-posts',
@@ -25,6 +26,15 @@ export class BlogPostsComponent implements OnInit {
   allTags: Tag[] = [];
   addNew = false;
   fileName: string = '';
+  public editorContent: string = '';
+  public options: Object = {
+    imageUploadURL: `${environment.appUrl}adminblogpost/images`,
+    // Allow to upload PNG and JPG.
+    imageAllowedTypes: ['jpeg', 'jpg', 'png'],
+    imageUploadMethod: 'POST',
+    imageMaxSize: 5 * 1024 * 1024, // 5MB
+  };
+
   get tags(): FormControl {
     return this.blogPostForm.get('tags') as FormControl;
   }
@@ -55,9 +65,15 @@ export class BlogPostsComponent implements OnInit {
 
     this.getAllBlogTags();
   }
-
+  selectedTags: any;
   initializeForm(blog: BlogPost | undefined) {
     if (blog) {
+      if (blog.tags)
+        this.selectedTags = this.formBuilder.control(
+          blog.tags.split(','),
+          Validators.required
+        );
+
       this.blogPostForm = this.formBuilder.group({
         id: [blog.id],
         heading: [blog.heading, Validators.required],
@@ -69,7 +85,7 @@ export class BlogPostsComponent implements OnInit {
         publishedDate: [blog.publishedDate, Validators.required],
         author: [blog.author, Validators.required],
         visible: [blog.visible, Validators.required],
-        tags: [blog.tags, Validators.required],
+        tags: this.selectedTags,
       });
     } else {
       this.blogPostForm = this.formBuilder.group({
@@ -125,6 +141,18 @@ export class BlogPostsComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.fileName = input.files[0].name;
+      //this.blogPostForm.get('featuredImageUrl')?.setValue(this.fileName);
+
+      this.blogService.uploadImage(input.files[0]).subscribe({
+        next: (response: any) => {
+          console.log(response);
+          this.blogPostForm.get('featuredImageUrl')?.setValue(response.link);
+        },
+      });
     }
+  }
+
+  onUploadFeaturedImage(event: any) {
+    console.log(event);
   }
 }

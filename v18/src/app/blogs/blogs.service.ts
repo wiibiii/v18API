@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from '../shared/shared.service';
@@ -107,6 +107,17 @@ export class BlogsService {
     return this.http.post(
       `${environment.appUrl}adminblogpost/admin-add-blog`,
       model
+    );
+  }
+
+  uploadImage(data: File) {
+    const formData: FormData = new FormData();
+    let headers: HttpHeaders = new HttpHeaders();
+    formData.append('file', data, data.name);
+    return this.http.post<string>(
+      `${environment.appUrl}adminblogpost/images`,
+      formData,
+      {}
     );
   }
 }

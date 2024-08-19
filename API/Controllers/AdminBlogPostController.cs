@@ -5,6 +5,7 @@ using Azure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Net;
 
 namespace API.Controllers
 {
@@ -15,15 +16,18 @@ namespace API.Controllers
         private readonly ITagRepositoryRepository tagRepository;
         private readonly IBlogPostRepository blogPostRepository;
         private readonly IBlogPostTagsRepository blogPostTagsRepository;
+        private readonly IImageRepository imageRepository;
 
         public AdminBlogPostController(
             ITagRepositoryRepository tagRepository,
             IBlogPostRepository blogPostRepository,
-            IBlogPostTagsRepository blogPostTagsRepository)
+            IBlogPostTagsRepository blogPostTagsRepository,
+            IImageRepository imageRepository)
         {
             this.tagRepository = tagRepository;
             this.blogPostRepository = blogPostRepository;
             this.blogPostTagsRepository = blogPostTagsRepository;
+            this.imageRepository = imageRepository;
         }
 
         [HttpPost("admin-add-blog")]
@@ -123,6 +127,19 @@ namespace API.Controllers
 
             return Ok(null);
 
+        }
+
+        [HttpPost("images")]
+        public async Task<IActionResult> UploadAsync(IFormFile file)
+        {
+            var imageURL = await imageRepository.UploadAsync(file);
+
+            if(imageURL != null)
+            {
+                return new JsonResult(new { link = imageURL});
+            }
+
+            return Problem("Something went wrong!", null, (int)HttpStatusCode.InternalServerError);
         }
     }
 }
