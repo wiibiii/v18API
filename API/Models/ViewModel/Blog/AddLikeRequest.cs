@@ -1,8 +1,7 @@
-﻿namespace API.Models.Blog
+﻿namespace API.Models.ViewModel.Blog
 {
-    public class BlogPostLike
+    public class AddLikeRequest
     {
-        public long Id { get; set; }
         public long BlogPostId { get; set; }
         public Guid UserId { get; set; }
     }

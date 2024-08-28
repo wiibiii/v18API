@@ -1,0 +1,175 @@
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-6" *ngIf="blogPost">
+      <h1 class="mb-3">{{ blogPost.heading }}</h1>
+
+      <div class="d-flex justify-content-between mb-3">
+        <span class="text-secondary">{{ blogPost.author }}</span>
+        <span class="text-secondary">{{ blogPost.publishedDate | date }} </span>
+      </div>
+      <div class="mb-3" *ngIf="accountService.user$ | async as user">
+        <a style="cursor: pointer" *ngIf="blogPost.liked">
+          <i class="bi bi-hand-thumbs-up-fill"></i>
+        </a>
+
+        <a
+          style="cursor: pointer"
+          *ngIf="!blogPost.liked"
+          (click)="onLike(blogPost.id)"
+        >
+          <i class="bi bi-hand-thumbs-up" id="liked"></i>
+        </a>
+        <!-- @if (signInManager.IsSignedIn(User))
+                    {
+                        if (Model.Liked)
+                        {
+                            <a style="cursor:pointer;">
+                                <i class="bi bi-hand-thumbs-up-fill"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a id="btnLike" style="cursor:pointer;">
+                                <i class="bi bi-hand-thumbs-up"></i>
+                            </a>
+                        }
+                    } -->
+
+        <span id="totalLikes">{{ blogPost.totalLikes }}</span> likes
+      </div>
+
+      <div class="mb-3 d-flex">
+        <span class="badge bg-secondary me-1" *ngFor="let tag of blogPost.tags">
+          {{ tag.displayName }}
+        </span>
+      </div>
+
+      <img
+        src="{{ blogPost.featuredImageUrl }}"
+        class="d-block img-fluid mb-3"
+      />
+
+      <div
+        class="mb-3 blog-details-content"
+        [innerHTML]="blogPost.content"
+      ></div>
+
+      <div class="card">
+        <div class="card-header">
+          <h5>Comments</h5>
+
+          <!-- @if (signInManager.IsSignedIn(User))
+                        { -->
+          <form
+            method="post"
+            *ngIf="accountService.user$ | async as user"
+            (ngSubmit)="onCommentSubmit()"
+          >
+            <div class="mb-3">
+              <label class="form-label">Comment Description</label>
+              <input
+                type="text"
+                class="form-control"
+                name="commentDescription"
+                [(ngModel)]="data.commentDescription"
+              />
+            </div>
+            <div class="mb-3">
+              <button type="submit" class="btn btn-dark">Submit</button>
+              <input
+                type="hidden"
+                name="id"
+                [(ngModel)]="data.id"
+                value="{{ blogPost.id }}"
+              />
+              <input
+                type="hidden"
+                value="{{ blogPost.urlHandle }}"
+                [(ngModel)]="data.urlHandle"
+                name="urlHandle"
+              />
+            </div>
+          </form>
+          <!-- } -->
+        </div>
+
+        <div class="card-body">
+          <div class="card mb-3" *ngFor="let comment of blogPost.comments">
+            <div>{{ comment.description }}</div>
+            <div class="d-flex justify-content-between">
+              <span class="text-secondary">{{ comment.username }}</span>
+              <span class="text-secondary">{{ comment.dateAdded | date }}</span>
+            </div>
+            <div class="card mb-3" *ngFor="let comment; of"></div>
+            <!-- @if (Model.Comments != null && Model.Comments.Any())
+                        {
+                            @foreach (var comment in Model.Comments)
+                            {
+                                <div class="card mb-3">
+                                    <div>@comment.Description</div>
+                                    <div class="d-flex justify-content-between">
+                                        <span class="text-secondary">@comment.Username</span>
+                                        <span class="text-secondary">@comment.DateAdded.ToShortDateString()</span>
+                                    </div>
+                                </div>
+                            }
+
+                        } -->
+          </div>
+        </div>
+
+        <!-- }
+            else
+            { -->
+
+        <!-- } -->
+      </div>
+      <p *ngIf="blogPost === null">Blog post not found!</p>
+    </div>
+  </div>
+
+  <!-- @section Scripts {
+    <script>
+        const btnLikeElement = document.getElementById("btnLike");
+        const totalLikeElement = document.getElementById('totalLikes');
+
+        async function getTotalLikes() {
+            fetch('/api/BlogPostLike/Id/totalLikes', {
+                method: 'Get',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+                .then(data => data.json())
+                .then((result) => {
+                    totalLikeElement.innerHTML = result;
+                });
+        }
+        async function addLikeForBlog() {
+            fetch('/api/BlogPostLike/Add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': '*/*'
+                },
+                body: JSON.stringify({
+                    blogPostId: 'Id',
+                    userId: '@userManager.GetUserId(User)'
+
+                })
+
+            })
+                .then(() => {
+                    //console.log('Request finished');
+                    btnLikeElement.innerHTML = '<i class="bi bi-hand-thumbs-up-fill"></i>';
+                    btnLikeElement.removeEventListener('click', addLikeForBlog);
+                    getTotalLikes();
+
+                });
+
+        }
+        btnLikeElement.addEventListener('click', addLikeForBlog);
+    </script>
+}
+ -->
+</div>

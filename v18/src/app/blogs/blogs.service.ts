@@ -7,6 +7,8 @@ import { Home } from '../shared/models/blogs/home';
 import { Tag, EditTag, Tags } from '../shared/models/blogs/tag';
 import { AddBlogPostRequest } from '../shared/models/blogs/addBlogPostRequest';
 import { BlogPost } from '../shared/models/blogs/blogPost';
+import { BlogPostLike } from '../shared/models/blogs/blogPostLike';
+import { BlogPostComment } from '../shared/models/blogs/comment';
 
 @Injectable({
   providedIn: 'root',
@@ -18,9 +20,13 @@ export class BlogsService {
     private sharedService: SharedService
   ) {}
 
-  getAllBlogs() {
+  getAllBlogs(searchQuery: string, pageNUmber: number = 1) {
+    let params = new HttpParams();
+    params = params.append('pageNUmber', pageNUmber);
+    params = params.append('searchQuery', searchQuery); //tag
     return this.http.get<Home | undefined>(
-      `${environment.appUrl}bloghome/getblogs`
+      `${environment.appUrl}bloghome/getblogs`,
+      { params: params }
     );
   }
 
@@ -118,6 +124,47 @@ export class BlogsService {
       `${environment.appUrl}adminblogpost/images`,
       formData,
       {}
+    );
+  }
+
+  getBlogPostByUrlHandle(urlHande: string) {
+    let params = new HttpParams();
+
+    params = params.append('urlHandle', urlHande);
+
+    return this.http.get<BlogPost>(
+      `${environment.appUrl}blogs/get-blog-by-urlhandle`,
+      {
+        params: params,
+      }
+    );
+  }
+
+  addLikeToBlogpost(blogpostid: string, userId: string) {
+    let params = new HttpParams();
+
+    params = params.append('BlogPostId', blogpostid);
+    params = params.append('UserId', userId);
+
+    return this.http.post<BlogPostLike>(
+      `${environment.appUrl}BlogPostLike/add-like-request`,
+      { blogpostid: blogpostid, userId: userId }
+    );
+  }
+
+  addCommentToBlogpost(data: any) {
+    // let params = new HttpParams();
+
+    // params = params.append('Id', blogpostid);
+    // params = params.append('commentDescription', commentDescription);
+    // params = params.append('urlHande', urlHande);
+    // const httpOptions = {
+    //   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    // };
+    return this.http.post<BlogPostComment>(
+      `${environment.appUrl}blogs/add-comment`,
+      data
+      // httpOptions
     );
   }
 }

@@ -59,8 +59,8 @@
             <div class="d-flex">
               <span
                 class="badge bg-secondary me-1"
-                *ngFor="let tag of blog.tags.split(',')"
-                >{{ tag }}</span
+                *ngFor="let tag of blog.tags"
+                >{{ tag.displayName }}</span
               >
             </div>
           </td>

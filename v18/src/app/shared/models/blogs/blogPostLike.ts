@@ -1,5 +1,5 @@
 export interface BlogPostLike {
-  Id: string;
-  BlogPostId: string;
+  Id: number;
+  BlogPostId: number;
   UserId: string;
 }

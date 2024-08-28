@@ -400,6 +400,7 @@ namespace API.Controllers
 
             return new UserDto
             {
+                Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 JWT = await jWTService.CreateJWT(user)
@@ -523,7 +524,7 @@ namespace API.Controllers
 
 
         }
-
+        [HttpGet("IsValidRefreshTokenAsync")]
         public async Task<bool> IsValidRefreshTokenAsync(string userId, string token)
         {
             if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(userId)) return false;

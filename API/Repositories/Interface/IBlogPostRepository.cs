@@ -12,6 +12,7 @@ namespace API.Repositories.Interface
 
         Task<BlogPost?> GetByUrlHandleAsync(string urlHandle);
 
+        Task<BlogPost> GetByUrlHandleAsyncBySp(string urlHandle);
         Task<BlogPost> AddAsync(BlogPost blogPost);
         Task<BlogPost?> UpdateAsync(BlogPost blogPost);
         Task<BlogPost?> DeleteAsync(Guid id);

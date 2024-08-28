@@ -112,6 +112,7 @@
       <mat-form-field class="full-width">
         <mat-label>Url Handle</mat-label>
         <input
+          appNoSpace
           matInput
           placeholder="Url Handle"
           required
@@ -171,7 +172,9 @@
             }
           </mat-select-trigger>
           @for (tag of allTags; track tag) {
-          <mat-option [value]="tag.name">{{ tag.name }}</mat-option>
+          <mat-option [value]="tag.displayName">{{
+            tag.displayName
+          }}</mat-option>
           }
         </mat-select>
       </mat-form-field>

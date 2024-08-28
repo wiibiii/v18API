@@ -3,6 +3,7 @@ using API.Repositories.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace API.Controllers
 {
@@ -13,23 +14,73 @@ namespace API.Controllers
         private readonly ILogger<BlogHomeController> logger;
         private readonly IBlogPostRepository blogPostRepository;
         private readonly ITagRepositoryRepository tagRepository;
+        private readonly IBlogPostTagsRepository blogPostTagsRepository;
 
         public BlogHomeController(
-            ILogger<BlogHomeController> logger, 
-            IBlogPostRepository blogPostRepository, 
-            ITagRepositoryRepository tagRepository)
+            ILogger<BlogHomeController> logger,
+            IBlogPostRepository blogPostRepository,
+            ITagRepositoryRepository tagRepository,
+            IBlogPostTagsRepository blogPostTagsRepository)
         {
             this.logger = logger;
             this.blogPostRepository = blogPostRepository;
             this.tagRepository = tagRepository;
+            this.blogPostTagsRepository = blogPostTagsRepository;
         }
         //TODO: add pagination
         [HttpGet("GetBlogs")]
-        public async Task<ActionResult<IEnumerable<BlogHomeViewModel>>> Index()
-
+        public async Task<IActionResult> Index(
+            string searchQuery = "",
+            int pageNumber = 1
+            )
         {
-            //var blogPosts = await blogPostRepository.GetAllAsync();
-            //var tags = await tagRepository.GetAllBlogTags();
+            try
+            {
+                var tags = await tagRepository.GetAllBlogTagsBySP();
+                var blogs = await blogPostRepository.GetAllPaginatedAsyncBySP("", "", "", pageNumber, 5);
+                var totalRecords = blogs.FirstOrDefault().Count;
+                var totalPages = Math.Ceiling((decimal)totalRecords / 5);
+
+                if (pageNumber > totalPages)
+                {
+                    pageNumber--;
+                }
+
+                if (pageNumber < 1)
+                {
+                    pageNumber++;
+                }
+
+
+
+
+                foreach (var blog in blogs)
+                {
+                    var blogtags = await blogPostTagsRepository.GetBlogPostTagByBlogPostIdAsyncBySp(blog.Id);
+
+                    blog.Tags = blogtags.ToList();
+                }
+
+                //return Ok(
+                //    new JsonResult(new { blogs = blogs,tags = tags, TotalPages = totalPages, PageNumber = pageNumber, PageSize = 5 })
+                //);
+                var model = new BlogHomeViewModel
+                {
+                    BlogPosts = blogs,
+                    Tags = tags,
+                    TotalPages = totalPages,
+                    PageNumber = pageNumber
+                };
+
+                return Ok(model);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            //var blogPosts = await blogPostRepository.GetAllAsyncBySP();
+            //var tags = await tagRepository.GetAllBlogTagsBySP();
 
             //var model = new BlogHomeViewModel
             //{
@@ -37,9 +88,6 @@ namespace API.Controllers
             //    Tags = tags
             //};
             //return Ok(model);
-
-
-            return Ok();
         }
 
         [HttpGet("Error")]

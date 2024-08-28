@@ -1,9 +1,8 @@
-﻿using API.Models.ViewModel.Blog;
-using Azure;
+﻿using API.Models.Blog;
 
-namespace API.Models.Blog
+namespace API.Models.ViewModel.Blog
 {
-    public class BlogPost
+    public class BlogDetailsViewModel
     {
         public long Id { get; set; }
         public string Heading { get; set; }
@@ -15,14 +14,13 @@ namespace API.Models.Blog
         public DateTime PublishedDate { get; set; }
         public string Author { get; set; }
         public bool Visible { get; set; }
+        public IEnumerable<BlogPostTag> Tags { get; set; }
 
-        // Navigation property
-        //public ICollection<Tag> Tags { get; set; }
+        public int TotalLikes { get; set; }
 
-        public List<BlogPostTag> Tags { get; set; } //public string Tags { get; set; }
+        public bool Liked { get; set; }
 
-        public long Count { get; set; }
-        //public ICollection<BlogPostLike> Likes { get; set; }
-        //public ICollection<BlogPostComment> Comment { get; set; }
+        public string CommentDescription { get; set; }
+        public IEnumerable<BlogComment> Comments { get; set; }
     }
 }

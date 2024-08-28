@@ -1,4 +1,5 @@
 ﻿using API.Models.Blog;
+using API.Models.ViewModel.Blog;
 
 namespace API.Repositories.Interface
 {
@@ -8,6 +9,9 @@ namespace API.Repositories.Interface
 
         Task AddBlogPostTagsAsyncBySp(BlogPostTags blogPostTags);
 
-        
+        Task<IEnumerable<BlogPostTag>> GetBlogPostTagByBlogPostIdAsyncBySp(long blogPostId);
+
+
+
     }
 }

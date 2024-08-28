@@ -8,7 +8,11 @@ import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { PlayComponent } from './play/play.component';
 import { SharedModule } from './shared/shared.module';
-import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { JwtInterceptor } from './shared/interceptors/jwt.interceptor';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -39,7 +43,7 @@ import 'froala-editor/js/plugins.pkgd.min.js';
       useClass: JwtInterceptor,
       multi: true,
     },
-    provideHttpClient(),
+    provideHttpClient(withInterceptorsFromDi()),
     provideAnimationsAsync(),
     provideNativeDateAdapter(),
   ],

@@ -1,0 +1,17 @@
+div#nav {
+    text-align: center;
+}
+
+div#nav ul {
+    display: inline-block;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+ul li {
+    margin-left: auto;
+    margin-right: auto;
+}

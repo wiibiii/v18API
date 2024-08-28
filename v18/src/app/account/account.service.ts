@@ -35,7 +35,7 @@ export class AccountService {
   refreshToken = async () => {
     this._http
       .post<User>(
-        `${environment.appUrl}account/refresh-page`,
+        `${environment.appUrl}account/refresh-token`,
         {},
         { withCredentials: true }
       )

@@ -1,6 +1,8 @@
 import { BloghomeComponent } from '../../../blogs/bloghome/bloghome.component';
+import { BlogComment } from './blogComment';
 import { BlogPostLike } from './blogPostLike';
-import { Tag } from './tag';
+import { BlogPostTags } from './blogPostTags';
+import { Tag, Tags } from './tag';
 
 export interface BlogPost {
   id: string;
@@ -13,7 +15,9 @@ export interface BlogPost {
   publishedDate: Date;
   author: string;
   visible: boolean;
-  tags: string;
-  // likes: BlogPostLike[];
-  // comment: BloghomeComponent[];
+  tags: BlogPostTags[];
+  likes: BlogPostLike[];
+  comments: BlogComment[];
+  liked: boolean;
+  totalLikes: number;
 }

@@ -70,7 +70,7 @@ export class BlogPostsComponent implements OnInit {
     if (blog) {
       if (blog.tags)
         this.selectedTags = this.formBuilder.control(
-          blog.tags.split(','),
+          blog.tags.map((x) => x.displayName),
           Validators.required
         );
 

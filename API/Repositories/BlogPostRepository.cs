@@ -185,6 +185,32 @@ namespace API.Repositories
             return null;
         }
 
+        public async Task<BlogPost> GetByUrlHandleAsyncBySp(string urlHandle)
+        {
+            try
+            {
+                using var conn = new SqlConnection(bloggieDbContext.Database.GetConnectionString());
+
+                var parameters = new
+                {
+                    urlHandle
+                };
+
+                var retFromDb = await conn.QueryFirstOrDefaultAsync<BlogPost>("[sel_BlogPostByUrlHandle]", parameters, commandType: CommandType.StoredProcedure);
+
+                if (retFromDb != null) return retFromDb;
+
+                return null;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return null;
+        }
+
         public async Task<BlogPost> UpdateAsync(BlogPost blogPost)
         {
             //var existingBlog = await bloggieDbContext.BlogPosts

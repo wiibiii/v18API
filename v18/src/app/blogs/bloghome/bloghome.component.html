@@ -30,7 +30,7 @@
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-6 d-flex">
-      <span class="badge bg-secondary me-1" *ngFor="let tag of home?.tags">{{
+      <span class="badge bg-secondary me-1 btn" *ngFor="let tag of tags">{{
         tag.name
       }}</span>
     </div>
@@ -40,10 +40,7 @@
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-6">
-      <div
-        class="mb-5 btn-light box-shadow p-5"
-        *ngFor="let blogs of home?.blogPosts"
-      >
+      <div class="mb-5 btn-light box-shadow p-5" *ngFor="let blogs of blogs">
         <img
           src="{{ blogs.featuredImageUrl }}"
           alt="{{ blogs.heading }}"
@@ -58,16 +55,47 @@
           Published Date : {{ blogs.publishedDate | date }}
         </p>
         <p class="mb-4">
-          <span
-            class="badge bg-secondary me-1"
-            *ngFor="let tag of blogs.tags?.split(',')"
-          >
-            {{ tag }}
+          <span class="badge bg-secondary me-1" *ngFor="let tag of blogs.tags">
+            {{ tag.displayName }}
           </span>
         </p>
         <h2 class="mb-4">{{ blogs.shortDescription }}</h2>
 
-        <a class="btn btn-dark">Read More</a>
+        <a class="btn btn-dark" routerLink="/blogs/index/{{ blogs.urlHandle }}"
+          >Read More</a
+        >
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-6">
+        <div class="mb-5 btn-light box-shadow p-5">
+          <nav aria-label="Page Navigation">
+            <ul class="pagination">
+              <li class="page-item">
+                <a class="page-link" (click)="getBlogs('', previousPage)"
+                  >Previous</a
+                >
+              </li>
+              <li
+                *ngFor="let item of [].constructor(totalPages); let i = index"
+              >
+                <a class="page-link" (click)="getBlogs('', i + 1)">
+                  <ng-container *ngIf="pageNumber === i + 1">
+                    <b>{{ i + 1 }}</b>
+                  </ng-container>
+                  <ng-container *ngIf="pageNumber !== i + 1">
+                    {{ i + 1 }}
+                  </ng-container>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" (click)="getBlogs('', nextPage)">Next</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
       </div>
     </div>
   </div>

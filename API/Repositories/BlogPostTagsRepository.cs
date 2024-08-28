@@ -1,6 +1,8 @@
 ﻿using API.Data;
 using API.Models.Blog;
+using API.Models.ViewModel.Blog;
 using API.Repositories.Interface;
+using CloudinaryDotNet.Actions;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -50,6 +52,22 @@ namespace API.Repositories
             //await bloggieDbContext.SaveChangesAsync();
 
             //return blogPostTags;
+        }
+
+        public async Task<IEnumerable<BlogPostTag>> GetBlogPostTagByBlogPostIdAsyncBySp(long blogPostId)
+        {
+            var parameters = new
+            {
+                blogPostId
+            };
+
+            using var conn = new SqlConnection(bloggieDbContext.Database.GetConnectionString());
+            var ret = await conn.QueryAsync<BlogPostTag>("[sel_BlogPostTags]", parameters, commandType: CommandType.StoredProcedure);
+
+            if(ret != null) return ret;
+
+            return null;
+
         }
 
         public async Task<List<BlogPost>> GetAllAsyncPaginatedBySp(int pageNumber)

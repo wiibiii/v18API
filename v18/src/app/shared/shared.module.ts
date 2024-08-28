@@ -17,6 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
+import { NoSpaceDirective } from './directives/no-space.directive';
 @NgModule({
   declarations: [
     NotFoundComponent,
@@ -24,6 +25,7 @@ import { MatSelectModule } from '@angular/material/select';
     NotificationComponent,
     UserHasRoleDirective,
     ExpiringSessionCountdownComponent,
+    NoSpaceDirective,
   ],
   imports: [
     FormsModule,
@@ -50,6 +52,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatSelectModule,
     ValidationMessagesComponent,
     UserHasRoleDirective,
+    NoSpaceDirective,
   ],
 })
 export class SharedModule {}

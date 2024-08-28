@@ -11,6 +11,8 @@ import { BlogPostsComponent } from './blogs/blog-posts/blog-posts.component';
 import { ListBlogpostsComponent } from './blogs/list-blogposts/list-blogposts.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import 'froala-editor/js/plugins.pkgd.min.js';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor } from '../shared/interceptors/jwt.interceptor';
 @NgModule({
   declarations: [
     AdminComponent,
@@ -27,6 +29,13 @@ import 'froala-editor/js/plugins.pkgd.min.js';
     SharedModule,
     FroalaEditorModule.forRoot(),
     FroalaViewModule.forRoot(),
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true,
+    },
   ],
 })
 export class AdminModule {}

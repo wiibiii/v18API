@@ -19,7 +19,10 @@ export class AdminService {
 
   getMember(id: string) {
     return this.http.get<MemberAddEdit>(
-      `${environment.appUrl}admin/get-member/${id}`
+      `${environment.appUrl}admin/get-member/${id}`,
+      {
+        withCredentials: true,
+      }
     );
   }
 
@@ -30,7 +33,9 @@ export class AdminService {
   }
 
   addEditMember(model: MemberAddEdit) {
-    return this.http.post(`${environment.appUrl}admin/add-edit-member`, model);
+    return this.http.post(`${environment.appUrl}admin/add-edit-member`, model, {
+      withCredentials: true,
+    });
   }
 
   lockMember(id: string) {

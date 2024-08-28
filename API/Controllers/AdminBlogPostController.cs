@@ -93,6 +93,13 @@ namespace API.Controllers
 
                 var blogs = await blogPostRepository.GetAllPaginatedAsyncBySP(searchQuery, sortBy, sortDirection, pageNumber, pageSize);
 
+                foreach (var blog in blogs)
+                {
+                    var blogtags = await blogPostTagsRepository.GetBlogPostTagByBlogPostIdAsyncBySp(blog.Id);
+
+                    blog.Tags = blogtags.ToList();
+
+                }
                 return Ok(
                 new JsonResult(new { blogs = blogs, TotalPages = totalPages, PageNumber = pageNumber, PageSize = pageSize })
                 );
@@ -109,20 +116,26 @@ namespace API.Controllers
         [HttpGet("Edit")]
         public async Task<IActionResult> Edit(long id)
         {
-            
+
 
             try
             {
                 var blogPost = await blogPostRepository.GetAsync(id);
 
-                if(blogPost != null)
+
+                var blogtags = await blogPostTagsRepository.GetBlogPostTagByBlogPostIdAsyncBySp(blogPost.Id);
+
+                blogPost.Tags = blogtags.ToList();
+
+
+                if (blogPost != null)
                 {
                     return Ok(blogPost);
                 }
             }
             catch (Exception)
             {
-                return Ok(null);                
+                return Ok(null);
             }
 
             return Ok(null);
@@ -134,9 +147,9 @@ namespace API.Controllers
         {
             var imageURL = await imageRepository.UploadAsync(file);
 
-            if(imageURL != null)
+            if (imageURL != null)
             {
-                return new JsonResult(new { link = imageURL});
+                return new JsonResult(new { link = imageURL });
             }
 
             return Problem("Something went wrong!", null, (int)HttpStatusCode.InternalServerError);
